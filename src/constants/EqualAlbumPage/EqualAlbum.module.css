@@ -1,0 +1,100 @@
+
+.images {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+	margin-top: 20px
+}
+
+.photos{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	max-width: 100%;
+}
+
+
+.window-wrapper {
+	width: 100%;
+	height: 95%;
+	display: flex;
+	flex-direction: column;
+}
+
+.photo-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 80%;
+    max-height: 100%;
+    max-width: 100%;
+    padding: 10px;
+}
+
+.photo-wrapper img{
+    width: 500px; 
+    height: 500px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.download-wrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.onemoredown-wrapper{
+	display: flex;
+	align-items: flex-end;
+}
+
+
+.download-button:hover{
+	text-decoration: none;
+}
+
+.download-button{
+	padding: 10px;
+	text-decoration: none;
+	text-align: center;
+	width: 100px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.detailed-photo {
+	max-width: 95%;
+	max-height: 80%;
+	background: aliceblue;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	z-index: 3000;
+	margin-bottom: 95px;
+	border: 1px solid black;
+}
+
+.cross-image {
+	cursor: pointer;
+	float: right;
+	transition: .4s all;  
+}
+
+.cross-image:hover{
+	transform: rotate(180deg);
+}
+
+
+.back-button{
+	cursor: pointer;
+	padding: 10px;
+}

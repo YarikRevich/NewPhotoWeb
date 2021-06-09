@@ -1,0 +1,59 @@
+.nav-bar{
+	max-width: 100%;
+	min-height: 55px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background-color: aliceblue;
+}
+
+.logo{
+	display: flex;
+	align-items: center;
+	flex: 2;
+	justify-content: center;
+}
+
+.albums {
+	display: flex;
+	align-items: center;
+	justify-content: center;	
+	flex: 1;
+}
+
+.account{
+	display: flex;
+	align-items: center;
+	justify-content: center;	
+	flex: 1;
+}
+
+
+.photos{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;	
+}
+
+.footer{
+	background-color: aliceblue;
+	width: 100%;
+	max-width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	height: 80px;
+}
+
+.contact-info{
+	display: flex;
+	width: 100%;
+	max-width: 100%;
+	flex-direction: column;
+	justify-content: space-around;
+	text-align: center;
+}

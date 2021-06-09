@@ -1,0 +1,33 @@
+.block {
+    background-color: aliceblue;
+    border-radius: 3%;
+    border: 1px solid #000000;
+    height: 50%;
+    width: 45%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.block input {
+    margin-top: 7px;
+    border-radius: 3%;
+}
+
+.block label {
+    align-self: flex-start;
+    margin-top: 8px;
+    margin-bottom: -5px;
+    margin-left: 20px;
+}
+
+.block button {
+    margin-top: 10px;
+}

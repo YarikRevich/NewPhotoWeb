@@ -1,0 +1,9 @@
+.close-cross{
+        cursor: pointer;
+        float: right;
+        transition: .4s all;  
+}
+
+.close-cross:hover{
+    transform: rotate(180deg);
+}

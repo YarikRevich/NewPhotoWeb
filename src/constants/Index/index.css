@@ -1,0 +1,49 @@
+* {
+	font-family: 'Open Sans', sans-serif;
+	
+}
+
+body{
+	margin: 0px;
+  z-index: 1000;
+}
+
+.nav-button {
+	height: 35px;
+	width: 65px;
+	text-align: center;
+	border: 0;
+	outline: 0;
+	border-radius: 10px;
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.nav-button:hover {
+	font-weight: bold;
+}
+
+.nav-button:focus {
+	box-shadow: 0px 2.5px 4px rgb(70, 83, 254);
+}
+
+.spiner {
+	border: 16px solid rgb(236, 246, 255);
+	border-radius: 50%;
+	border-top: 16px solid rgb(70, 83, 254);
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin{
+	0% { transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+
+}
