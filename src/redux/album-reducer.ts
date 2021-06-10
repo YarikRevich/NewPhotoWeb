@@ -22,7 +22,7 @@ const albumReducer = (state: initialStateType = initialState, action: Reducers.A
     return state
 }
 
-export const createGetEqualAlbum = () => (dispatch: Dispatch<Reducers.AlbumReducer.IAlbumActions>) => {
+export const createGetEqualAlbum = (albumName: string) => (dispatch: Dispatch<Reducers.AlbumReducer.IAlbumActions>) => {
 
 }
 

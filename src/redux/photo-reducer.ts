@@ -3,9 +3,6 @@ import { addPhotos, getPhotos } from "../api/photos";
 import { GetTagCoincidence, GetSomeTagCoincidence } from "../Helpers/utils"
 import { Reducers } from "../types";
 import type { SentData } from "../types";
-//Style constants ...
-
-import classes from "./../constants/PhotoPage/Photos.module.css"
 
 let initialState = {
     result: [],

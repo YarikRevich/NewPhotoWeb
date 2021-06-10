@@ -4,19 +4,19 @@ import { connect } from "react-redux";
 import { withAuth } from "./../../hoc/auth"
 import { EqualAlbum } from "./EqualAlbum"
 import type { State } from "./../../types"
+import { createGetEqualAlbum } from "../../redux/album-reducer";
 
-const mapStateToProps = (state: State, matches: {match: {params: {name: string}}}) => {
+const mapStateToProps = (state: State, matches: { match: { params: { name: string } } }) => {
     return ({
-        albumPage: state.albumPage,
+        equalAlbum: state.equalAlbumPage,
         name: matches.match.params.name
     })
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     return ({
-        getEqualAlbumPhotos: (name: string) => {
-        },
-        setDetailedPhoto: (photo: string) => {
+        getEqualAlbumPhotos: (albumName: string) => {
+            dispatch(createGetEqualAlbum(albumName))
         }
     })
 }

@@ -17,8 +17,13 @@ export namespace SentData {
         extension: string
     }[]
     export type Photos = {
-        thumbnail: string,
         tags: string[]
+    }[]
+}
+
+export namespace Util {
+    export interface Tagged<T> {
+        tags?: string[]
     }[]
 }
 
@@ -113,7 +118,7 @@ export interface State {
 
     accountPage: StateComponenents.AccountPage;
 
-    albumPage: StateComponenents.EqualAlbumPage;
+    equalAlbumPage: StateComponenents.EqualAlbumPage;
 
     authentication: StateComponenents.Authentication;
 
@@ -124,22 +129,33 @@ export namespace Components {
     export namespace DetailedView {
         export interface DetailedViewType {
             readonly type: "photo" | "video"
-            // orderPhotosDueTags(photos: { thumbnail: string; tags: string[] }[], tch: string[]): Array<{ photo: string; thumbnail: string; tags: string[] }>
-            // setThumbnailToShowInDatailed(thumbnail: string): void
         }
     }
 
     export namespace MediaOrderer {
-        export interface MediaOrdererType {
-            readonly type: "photo" | "video" | "albums"
+        export interface MediaOrdererType<T> {
+            data: Array<T> | null
+            readonly tags?: string[]
             readonly mediaSize: {
                 width: number;
                 height: number;
             };
-            readonly photoPage: StateComponenents.PhotoPage;
-            readonly videoPage: StateComponenents.VideoPage
-            readonly albumsPage: StateComponenents.AlbumsPage
-            getFullPhoto(thumbnail: string): void;
+            render(
+                value: T,
+                index: number,
+                size: {
+                    width: number;
+                    height: number;
+                }): JSX.Element
+
+
+            // readonly type: "photo" | "video" | "albums" | "equalalbum"
+
+            // readonly photoPage: StateComponenents.PhotoPage;
+            // readonly videoPage: StateComponenents.VideoPage
+            // readonly albumsPage: StateComponenents.AlbumsPage
+            // readonly equalAlbumPage: StateComponenents.EqualAlbumPage
+            // getFullPhoto(thumbnail: string): void;
         }
     }
     export namespace Auth {
@@ -196,7 +212,7 @@ export namespace Components {
 
         export interface AlbumsType {
             readonly albumsPage: StateComponenents.AlbumsPage;
-            handleFormAdd(ref1: React.RefObject<HTMLInputElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLInputElement>): void
+            handleFormAdd(albumName: string, directories: FileList, files: FileList): void
             handleFormCreate(ref: React.RefObject<HTMLInputElement>): void
             handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
             getAlbums(): void
@@ -207,21 +223,9 @@ export namespace Components {
             getAlbums(): void
         }
 
-        export interface AddToAlbumType {
-            handleFormAdd(ref1: React.RefObject<HTMLInputElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLInputElement>): void
-        }
-
-        export interface DeleteAlbumType {
-            handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
-        }
-
-        export interface CreateAlbumType {
-            handleFormCreate(ref: React.RefObject<HTMLInputElement>): void
-        }
-
         export interface AdvancePanelType {
             albumsPage: StateComponenents.AlbumsPage;
-            handleFormAdd(ref1: React.RefObject<HTMLInputElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLInputElement>): void
+            handleFormAdd(albumName: string, directories: FileList, files: FileList): void
             handleFormCreate(ref: React.RefObject<HTMLInputElement>): void
             handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
         }
@@ -231,16 +235,7 @@ export namespace Components {
         export interface EqualAlbumType {
             name: string
             albumPage: StateComponenents.EqualAlbumPage
-            checkAuthentication(): void
-            getEqualAlbumPhotos(name: string): void
-            setDetailedPhoto(photo: string): void
-        }
-
-        export interface AlbumPhotoTableType {
-            readonly name: string
-            readonly albumPage: StateComponenents.EqualAlbumPage
-            getEqualAlbumPhotos(name: string): void
-            setDetailedPhoto(photo: string): void
+            getEqualAlbumPhotos(albumName: string): void
         }
     }
 

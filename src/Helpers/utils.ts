@@ -1,6 +1,6 @@
-import type { SentData } from "./../types/index"
+import type { SentData, StateComponenents, Util } from "./../types/index"
 
-export const IsChosenTagInTags = (tch: string[], rt: string[]): boolean => {
+export const IsChosenTagInTags = <T>(tch: Array<T>, rt: Array<T>): boolean => {
     //Checks if chosen tags are in the available ones ...
 
     for (let r of tch) {
@@ -54,8 +54,8 @@ export const GetSomeTagCoincidence = (at: string[], wt: string): string[] => {
     return [first, second, third]
 }
 
-export const OrderByTags = (p: SentData.Photos, tch: string[]): SentData.Photos => {
-    const result: SentData.Photos = [];
+export const OrderByTags = <T extends Util.Tagged<T>>(p: Array<T>, tch: string[]): Array<T> => {
+    const result: Array<T> = []
     if (!p) return result
 
     for (let r of p) {

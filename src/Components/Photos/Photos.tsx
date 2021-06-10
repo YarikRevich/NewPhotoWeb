@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import type { Components, SentData } from "./../../types"
 import { Formik } from "formik"
-import MediaOrdererContainer from "./../MediaOrderer/MediaOrdererContainer"
+import MediaOrderer from "./../MediaOrderer/MediaOrderer"
 //Utils ...
 
 import { GetRandomName } from "../../Helpers/utils"
 
 //Style constants ...
 
+import EmptyImage from "./../../assets/images/empty.png"
 import classes from "./../../constants/PhotoPage/Photos.module.css"
 import "../../constants/Index/index.css"
 
@@ -82,7 +83,20 @@ export const Photos = (props: Components.Photos.PhotosType) => {
                 handleSearch={props.handleSearch}
                 handleReset={props.handleReset}
             />
-            <MediaOrdererContainer type={"photo"} mediaSize={{ height: 100, width: 100 }} />
+            <MediaOrderer
+                data={props.photoPage.result}
+                tags={props.photoPage.chosenTags}
+                render={(el, i, s) => {
+                    console.log(el)
+                    return (
+                        <img
+                            width={s.width}
+                            height={s.height}
+                            src={el.thumbnail ? "data:image/png;image/jpeg;image/jpg;base64, " + el.thumbnail : EmptyImage}
+                        />
+                    )
+                }}
+                mediaSize={{ height: 100, width: 100 }} />
         </div>
     )
 }

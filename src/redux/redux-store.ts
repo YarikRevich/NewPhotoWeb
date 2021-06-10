@@ -10,7 +10,7 @@ import appReducer from "./app-reducer"
 
 let reducers = combineReducers<Reducer>({
     photoPage: photoReducer,
-    albumPage: albumReducer,
+    equalAlbumPage: albumReducer,
     albumsPage: albumsReducer,
     accountPage: accountReducer,
     authentication: authReducer,

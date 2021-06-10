@@ -14,19 +14,14 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     return ({
-        handleFormAdd: (ref1: React.RefObject<HTMLInputElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLInputElement>) => {
-            const multiple = ref2.current?.files;
-            const directory = ref3.current?.files;
+        handleFormAdd: (albumName: string, directories: FileList, files: FileList) => {
+            const concated = Array.from(files).concat(Array.from(directories));
+            const r = new DataTransfer()
 
-            if (multiple && directory) {
-                const files = Array.from(multiple).concat(Array.from(directory));
-
-                let fileList = new DataTransfer()
-
-                for (let i of files) {
-                    fileList.items.add(i)
-                }
+            for (let i of concated) {
+                r.items.add(i)
             }
+            console.log(concated)
         },
         handleFormCreate: (ref: React.RefObject<HTMLInputElement>) => {
         },
