@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { Components, SentData } from "./../../types"
 import { Formik } from "formik"
 import MediaOrderer from "./../MediaOrderer/MediaOrderer"
+import DetailedView from "./../DetailedView/DetailedViewContainer"
 //Utils ...
 
 import { GetRandomName } from "../../Helpers/utils"
@@ -68,6 +69,7 @@ const Panel = (props: Components.Photos.PanelType) => {
 }
 
 export const Photos = (props: Components.Photos.PhotosType) => {
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         props.getPhotos()
@@ -87,13 +89,26 @@ export const Photos = (props: Components.Photos.PhotosType) => {
                 data={props.photoPage.result}
                 tags={props.photoPage.chosenTags}
                 render={(el, i, s) => {
-                    console.log(el)
+
                     return (
-                        <img
-                            width={s.width}
-                            height={s.height}
-                            src={el.thumbnail ? "data:image/png;image/jpeg;image/jpg;base64, " + el.thumbnail : EmptyImage}
-                        />
+                        <div>
+                            {open? (
+                                 <DetailedView
+                                    visible={open}
+                                    onClose={() => setOpen(false)}
+                                    type={"photo"}
+                                    media={el.thumbnail}
+                                    mediaSize={{ height: 300, width: 300 }} />
+                            ) : (
+                                null
+                            )}
+                            <img
+                                onClick={() => setOpen(!open)}
+                                width={s.width}
+                                height={s.height}
+                                src={el.thumbnail ? "data:image/png;image/jpeg;image/jpg;base64, " + el.thumbnail : EmptyImage}
+                            />
+                        </div>
                     )
                 }}
                 mediaSize={{ height: 100, width: 100 }} />

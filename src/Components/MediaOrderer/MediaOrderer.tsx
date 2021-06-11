@@ -21,7 +21,14 @@ function MediaOrderer<T>(props: Components.MediaOrderer.MediaOrdererType<T>) {
     const media = props.tags ? OrderByTags(props.data, props.tags) : props.data
 
     media.map((el: T, i: number) => {
-        if (!((((rowRate + props.mediaSize.width) <= window.innerWidth)))) {
+        children.push(
+            <div>
+                {props.render(el, i, props.mediaSize)}
+            </div>
+        );
+        rowRate += props.mediaSize.width;
+
+        if (!((rowRate + props.mediaSize.width) < window.innerWidth)) {
             result.push(
                 React.createElement("div", { className: classes["media"], key: i }, ...children)
             )
@@ -29,14 +36,6 @@ function MediaOrderer<T>(props: Components.MediaOrderer.MediaOrdererType<T>) {
             rowRate = 0;
             return
         }
-        rowRate += props.mediaSize.width;
-
-        children.push(
-            <div>
-                {props.render(el, i, props.mediaSize)}
-            </div>
-        );
-
     })
     if (children.length != 0) {
         result.push(

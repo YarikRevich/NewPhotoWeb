@@ -54,7 +54,7 @@ export const GetSomeTagCoincidence = (at: string[], wt: string): string[] => {
     return [first, second, third]
 }
 
-export const OrderByTags = <T extends Util.Tagged<T>>(p: Array<T>, tch: string[]): Array<T> => {
+export const OrderByTags = <T extends Util.Tagged>(p: Array<T>, tch: string[]): Array<T> => {
     const result: Array<T> = []
     if (!p) return result
 

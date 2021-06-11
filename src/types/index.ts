@@ -22,9 +22,9 @@ export namespace SentData {
 }
 
 export namespace Util {
-    export interface Tagged<T> {
+    export interface Tagged {
         tags?: string[]
-    }[]
+    }
 }
 
 export namespace StateComponenents {
@@ -129,6 +129,13 @@ export namespace Components {
     export namespace DetailedView {
         export interface DetailedViewType {
             readonly type: "photo" | "video"
+            readonly media: string
+            readonly mediaSize: {
+                height: number
+                width: number
+            }
+            readonly visible: boolean
+            onClose: () => void
         }
     }
 
