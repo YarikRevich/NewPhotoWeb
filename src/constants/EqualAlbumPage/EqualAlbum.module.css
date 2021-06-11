@@ -1,4 +1,4 @@
-
+/* 
 .images {
 	display: flex;
 	flex-direction: row;
@@ -97,4 +97,8 @@
 .back-button{
 	cursor: pointer;
 	padding: 10px;
+} */
+
+.panel {
+	padding: 10px
 }

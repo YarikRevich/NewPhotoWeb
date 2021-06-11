@@ -45,7 +45,6 @@ function MediaOrderer<T>(props: Components.MediaOrderer.MediaOrdererType<T>) {
 
     return result.length == 0 ? (
         <div className={classes["no-media-announcement"]}>
-            <img src={NoMediaImage} />
             <h1>It's empty</h1>
         </div>
     ) : <div>{result}</div>

@@ -52,7 +52,12 @@ export namespace StateComponenents {
         result: {
             name: string,
             latestphotothumbnail: string
-        }[]
+        }[];
+        isUpdate: boolean
+        redirect: {
+            isRedirect: boolean
+            to: string
+        }
     }
 
     export interface AccountPage {
@@ -92,10 +97,8 @@ export namespace StateComponenents {
             photo: string,
             thumbnail: string
         }[],
-        detailedView: {
-            photo: string
-        }
-        service: Service,
+        fullMedia: string
+        goBack: boolean
     }
 
     export interface Authentication {
@@ -220,8 +223,9 @@ export namespace Components {
         export interface AlbumsType {
             readonly albumsPage: StateComponenents.AlbumsPage;
             handleFormAdd(albumName: string, directories: FileList, files: FileList): void
-            handleFormCreate(ref: React.RefObject<HTMLInputElement>): void
+            handleFormCreate(albumName: string): void
             handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
+            turnOnRedirect(to: string): void
             getAlbums(): void
         }
 
@@ -233,16 +237,23 @@ export namespace Components {
         export interface AdvancePanelType {
             albumsPage: StateComponenents.AlbumsPage;
             handleFormAdd(albumName: string, directories: FileList, files: FileList): void
-            handleFormCreate(ref: React.RefObject<HTMLInputElement>): void
+            handleFormCreate(albumName: string): void
             handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
         }
     }
 
     export namespace EqualAlbum {
         export interface EqualAlbumType {
-            name: string
-            albumPage: StateComponenents.EqualAlbumPage
+            readonly name: string
+            readonly equalAlbumPage: StateComponenents.EqualAlbumPage
+            turnOffRedirect(): void
+            handleDeleteAlbum(albumName: string): void
+            turnOnGoBack(): void
             getEqualAlbumPhotos(albumName: string): void
+        }
+        export interface AdvancedPanelType {
+            readonly name: string
+            handleDeleteAlbum(albumName: string): void
         }
     }
 
@@ -344,22 +355,28 @@ export namespace Reducers {
         export const GET_ALBUMS_ERROR = "GET-ALBUMS-ERROR"
         export const CREATE_ALBUM_SUCCESS = "CREATE-ALBUM-SUCCESS";
         export const CREATE_ALBUM_ERROR = "CREATE-ALBUM-ERROR";
-        export const DELETE_ALBUM_SUCCESS = "DELETE-ALBUM-SUCCESS";
-        export const DELETE_ALBUM_ERROR = "DELETE-ALBUM-ERROR";
-        export const ADD_TO_ALBUM_SUCCESS = "ADD-TO-ALBUM-SUCCESS";
-        export const ADD_TO_ALBUM_ERROR = "ADD-TO-ALBUM-ERROR";
+        export const TURN_ON_UPDATE = "TURN-ON-UPDATE"
+        export const TURN_OFF_UPDATE = "TURN-OFF-UPDATE"
+        export const TURN_ON_REDIRECT = "TURN-ON-REDIRECT"
+        export const TURN_OFF_REDIRECT = "TURN-OFF-REDIRECT"
     }
 
-    export namespace AlbumReducer {
-        export interface IAlbumActions {
+    export namespace EqualAlbumReducer {
+        export interface IEqualAlbumActions {
             type: string
             data?: any
         }
 
+        export const DELETE_ALBUM_SUCCESS = "DELETE-ALBUM-SUCCESS";
+        export const DELETE_ALBUM_ERROR = "DELETE-ALBUM-ERROR";
+        export const ADD_TO_ALBUM_SUCCESS = "ADD-TO-ALBUM-SUCCESS";
+        export const ADD_TO_ALBUM_ERROR = "ADD-TO-ALBUM-ERROR";
         export const GET_EQUAL_ALBUM_SUCCESS = "GET-EQUAL-ALBUM-SUCCESS"
         export const GET_EQUAL_ALBUM_ERROR = "GET-EQUAL-ALBUM-ERROR"
         export const GET_FULL_MEDIA_SUCCESS = "GET-FULL-MEDIA-SUCCESS"
         export const GET_FULL_MEDIA_ERROR = "GET-FULL-MEDIA-ERROR"
+        export const TURN_ON_GO_BACK = "TURN-ON-GO-BACK"
+        export const TURN_OFF_GO_BACK = "TURN-OFF-GO-BACK"
     }
 }
 

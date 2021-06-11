@@ -1,5 +1,5 @@
 import configuredAxios from "./common"
-import messagePublusher from "messagepublisher"
+import messagePublisher from "messagepublisher"
 import type { SentData } from "./../types/index"
 
 export const getPhotos = async (): Promise<{ ok: boolean, data: any } | void> => {
@@ -7,7 +7,7 @@ export const getPhotos = async (): Promise<{ ok: boolean, data: any } | void> =>
         const r = await configuredAxios.get("/photos", { params: { page: 1, offset: 10 } })
         return { ok: r.data.service.ok, data: r.data.result }
     } catch (error) {
-        messagePublusher.add(error)
+        messagePublisher.add(error)
     }
 }
 
@@ -15,6 +15,6 @@ export const addPhotos = async (d: SentData.LoadedPhotos): Promise<boolean | voi
     try {
         const r = await configuredAxios.post("/photos", { data: d })
     } catch (error) {
-        messagePublusher.add(error)
+        messagePublisher.add(error)
     }
 }

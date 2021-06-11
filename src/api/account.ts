@@ -1,5 +1,5 @@
 import configuredAxios from "./common"
-import messagePublusher from "messagepublisher"
+import messagePublisher from "messagepublisher"
 import { IsAuthError } from "../Helpers/utils"
 
 
@@ -8,7 +8,7 @@ export const getAccountInfo = async (): Promise<{ ok: boolean, data: any } | voi
         const r = await configuredAxios.get("/account")
         return { ok: r.data.service.ok, data: r.data.result }
     } catch (error) {
-        messagePublusher.add(error.message)
+        messagePublisher.add(error.message)
     }
 }
 
@@ -20,7 +20,7 @@ export const getAvatar = async (): Promise<{ ok: boolean, avatar: any } | void> 
         }
         return { ok: r.data.service.ok, avatar: r.data.result.avatar }
     } catch (error) {
-        messagePublusher.add(error.message)
+        messagePublisher.add(error.message)
     }
 }
 
@@ -29,6 +29,6 @@ export const setAvatar = async (a: string): Promise<boolean | void> => {
         const r = await configuredAxios.post("/account/avatar", { data: { avatar: a } })
         return r.data.service.ok
     } catch (error) {
-        messagePublusher.add(error.message)
+        messagePublisher.add(error.message)
     }
 }

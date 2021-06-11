@@ -1,9 +1,14 @@
 import React, { Dispatch } from "react";
-import { getAlbums } from "../api/albums";
+import { getAlbums, createAlbum } from "../api/albums";
 import { Reducers } from "../types";
 
 const initialState = {
     result: [],
+    isUpdate: false,
+    redirect: {
+        isRedirect: false,
+        to: ""
+    }
 }
 
 type initialStateType = typeof initialState
@@ -15,13 +20,18 @@ const albumsReducer = (state: initialStateType = initialState, action: Reducers.
         case Reducers.AlbumsReducer.GET_ALBUMS_ERROR:
             return { ...state }
         case Reducers.AlbumsReducer.CREATE_ALBUM_SUCCESS:
-            return { ...state }
+            return { ...state, reset: [] }
         case Reducers.AlbumsReducer.CREATE_ALBUM_ERROR:
             return { ...state }
-        case Reducers.AlbumsReducer.DELETE_ALBUM_SUCCESS:
-            return { ...state }
-        case Reducers.AlbumsReducer.DELETE_ALBUM_ERROR:
-            return { ...state }
+        case Reducers.AlbumsReducer.TURN_ON_UPDATE:
+            return { ...state, isUpdate: true }
+        case Reducers.AlbumsReducer.TURN_OFF_UPDATE:
+            return { ...state, isUpdate: false }
+        case Reducers.AlbumsReducer.TURN_ON_REDIRECT:
+            return { ...state, redirect: { isRedirect: true, to: action.data } }
+        case Reducers.AlbumsReducer.TURN_OFF_REDIRECT:
+            return { ...state, redirect: { isRedirect: false, to: "" } }
+
         //     case ADD_TO_ALBUM:
         //         let filesOrFile = action.files as FileList;
         //         if (filesOrFile === null || filesOrFile === undefined) {
@@ -88,10 +98,27 @@ const albumsReducer = (state: initialStateType = initialState, action: Reducers.
     return state
 }
 
+export const createTurnOnRedirect = (to: string): Reducers.AlbumsReducer.IAlbumsActions => {
+    return { type: Reducers.AlbumsReducer.TURN_ON_REDIRECT, data: to }
+}
+
+export const createTurnOffRedirect = (): Reducers.AlbumsReducer.IAlbumsActions => {
+    return { type: Reducers.AlbumsReducer.TURN_OFF_REDIRECT }
+}
+
+export const createTurnOnUpdate = (): Reducers.AlbumsReducer.IAlbumsActions => {
+    return { type: Reducers.AlbumsReducer.TURN_ON_UPDATE }
+}
+
+export const createTurnOffUpdate = (): Reducers.AlbumsReducer.IAlbumsActions => {
+    return { type: Reducers.AlbumsReducer.TURN_OFF_UPDATE }
+}
+
 export const createGetAlbums = () => async (dispatch: Dispatch<Reducers.AlbumsReducer.IAlbumsActions>) => {
     const r = await getAlbums()
-    if (r && r.ok) {
+    if (r && r.ok && r.data) {
         dispatch(createGetAlbumsSuccess(r.data))
+        dispatch(createTurnOffUpdate())
     } else {
         dispatch(createGetAlbumsError())
     }
@@ -104,5 +131,24 @@ const createGetAlbumsSuccess = (d: any): Reducers.AlbumsReducer.IAlbumsActions =
 const createGetAlbumsError = (): Reducers.AlbumsReducer.IAlbumsActions => {
     return { type: Reducers.AlbumsReducer.GET_ALBUMS_ERROR }
 }
+
+export const createCreateAlbum = (albumName: string) => async (dispatch: Dispatch<Reducers.AlbumsReducer.IAlbumsActions>) => {
+    const r = await createAlbum(albumName)
+    if (r) {
+        dispatch(createTurnOnUpdate())
+        dispatch(createCreateAlbumSuccess())
+    } else {
+        dispatch(createCreateAlbumError())
+    }
+}
+
+const createCreateAlbumSuccess = (): Reducers.AlbumsReducer.IAlbumsActions => {
+    return { type: Reducers.AlbumsReducer.CREATE_ALBUM_SUCCESS }
+}
+
+const createCreateAlbumError = (): Reducers.AlbumsReducer.IAlbumsActions => {
+    return { type: Reducers.AlbumsReducer.CREATE_ALBUM_ERROR }
+}
+
 
 export default albumsReducer
