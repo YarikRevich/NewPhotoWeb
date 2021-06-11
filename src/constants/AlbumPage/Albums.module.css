@@ -7,14 +7,6 @@
     margin-right: 10px;
 }
 
-.block-button {
-    z-index: 10000;
-    float: right;
-    cursor: pointer;
-    padding-right: 10px;
-    padding-top: 10px;
-}
-
 .block {
     max-width: 70%;
 }
