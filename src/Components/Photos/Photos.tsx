@@ -69,7 +69,7 @@ const Panel = (props: Components.Photos.PanelType) => {
 }
 
 export const Photos = (props: Components.Photos.PhotosType) => {
-    const [open, setOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState<any>([])
 
     useEffect(() => {
         props.getPhotos()
@@ -92,22 +92,31 @@ export const Photos = (props: Components.Photos.PhotosType) => {
 
                     return (
                         <div>
-                            {open? (
-                                 <DetailedView
-                                    visible={open}
-                                    onClose={() => setOpen(false)}
-                                    type={"photo"}
-                                    media={el.thumbnail}
-                                    mediaSize={{ height: 300, width: 300 }} />
-                            ) : (
-                                null
-                            )}
                             <img
-                                onClick={() => setOpen(!open)}
+                                onClick={(e) => {
+                                    props.turnOnFullMedia(el.thumbnail)
+                                    const n = anchorEl
+                                    n[i] = e.currentTarget
+                                    setAnchorEl(n)
+                                }}
                                 width={s.width}
                                 height={s.height}
                                 src={el.thumbnail ? "data:image/png;image/jpeg;image/jpg;base64, " + el.thumbnail : EmptyImage}
                             />
+                            {props.photoPage.fullMedia.isShown ? (
+                                <DetailedView
+                                    anchorEl={anchorEl[i]}
+                                    visible={props.photoPage.fullMedia.isShown}
+                                    type={"photo"}
+                                    onClose={() => {
+                                        props.turnOffFullMedia()
+                                        setAnchorEl(anchorEl.filter((o: number) => o == i))
+                                    }}
+                                    media={props.photoPage.fullMedia.src}
+                                    mediaSize={{ height: 100, width: 100 }} />
+                            ) : (
+                                null
+                            )}
                         </div>
                     )
                 }}

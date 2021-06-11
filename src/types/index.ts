@@ -40,7 +40,10 @@ export namespace StateComponenents {
             thumbnail: string
             tags: string[]
         }[]
-        fullMedia: string,
+        fullMedia: {
+            isShown: false,
+            src: "",
+        },
         chosenTags: string[],
     }
 
@@ -131,6 +134,7 @@ export interface State {
 export namespace Components {
     export namespace DetailedView {
         export interface DetailedViewType {
+            readonly anchorEl: HTMLImageElement | null
             readonly type: "photo" | "video"
             readonly media: string
             readonly mediaSize: {
@@ -269,7 +273,8 @@ export namespace Components {
             getPhotos(): void
             getFullPhoto(photo: string, thumbnail: string, ref: React.RefObject<HTMLAnchorElement>): void
             orderPhotosDueTags(photos: { photo: string; thumbnail: string; tags: string[] }[], tch: string[]): Array<{ photo: string; thumbnail: string; tags: string[] }>
-            setThumbnailToShowInDatailed(thumbnail: string): void
+            turnOnFullMedia(thumbnail: string): void
+            turnOffFullMedia(): void
         }
 
         export interface PanelType {
@@ -299,8 +304,8 @@ export namespace Reducers {
 
         export const GET_PHOTOS_SUCCESS = "GET-PHOTOS-SUCCESS";
         export const GET_PHOTOS_ERROR = "GET-PHOTOS-ERROR";
-        export const GET_FULL_PHOTO_SUCCESS = "GET-FULL-PHOTO-SUCCESS"
-        export const GET_FULL_PHOTO_ERROR = "GET-FULL-PHOTO-ERROR"
+        export const TURN_ON_FULL_MEDIA = "TURN-ON-FULL-MEDIA"
+        export const TURN_OFF_FULL_MEDIA = "TURN-OFF-FULL-MEDIA"
         export const ADD_PHOTOS_SUCCESS = "ADD-PHOTOS-SUCCESS";
         export const ADD_PHOTOS_ERROR = "ADD-PHOTOS-ERROR";
         export const SET_CHOSEN_TAG = "SET-CHOSEN-TAG"

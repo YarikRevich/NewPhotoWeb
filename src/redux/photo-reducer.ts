@@ -3,10 +3,14 @@ import { addPhotos, getPhotos } from "../api/photos";
 import { GetTagCoincidence, GetSomeTagCoincidence } from "../Helpers/utils"
 import { Reducers } from "../types";
 import type { SentData } from "../types";
+import { getFullMedia } from "../api/media";
 
 let initialState = {
     result: [],
-    fullMedia: "",
+    fullMedia: {
+        isShown: false,
+        src: "",
+    },
     chosenTags: [],
 }
 
@@ -19,10 +23,10 @@ const photoReducer: any = (state: initialStateType = initialState, action: Reduc
             return { ...state, result: action.data }
         case Reducers.PhotoReducer.GET_PHOTOS_ERROR:
             return { ...state }
-        case Reducers.PhotoReducer.GET_FULL_PHOTO_SUCCESS:
-            return { ...state, fullMedia: action.data }
-        case Reducers.PhotoReducer.GET_FULL_PHOTO_ERROR:
-            return { ...state }
+        case Reducers.PhotoReducer.TURN_ON_FULL_MEDIA:
+            return { ...state, fullMedia: { isShown: true, src: action.data } }
+        case Reducers.PhotoReducer.TURN_OFF_FULL_MEDIA:
+            return { ...state, fullMedia: { isShown: false, src: "" } }
         case Reducers.PhotoReducer.ADD_PHOTOS_SUCCESS:
             return { ...state }
         case Reducers.PhotoReducer.ADD_PHOTOS_ERROR:
@@ -228,6 +232,27 @@ const createAddPhotosError = (): Reducers.PhotoReducer.IPhotoActions => {
 
 export const createSetChosenTag = (t: string): Reducers.PhotoReducer.IPhotoActions => {
     return { type: Reducers.PhotoReducer.SET_CHOSEN_TAG, data: t }
+}
+
+export const createTurnOnFullMedia = (thumbnail: string) => async (dispatch: Dispatch<Reducers.PhotoReducer.IPhotoActions>) => {
+    const r = await getFullMedia("photos", thumbnail)
+    if (r && r.ok) {
+        dispatch(createTurnOnFullMediaSuccess(r.media))
+    } else {
+        dispatch(createTurnOnFullMediaError())
+    }
+}
+
+const createTurnOnFullMediaSuccess = (media: string): Reducers.PhotoReducer.IPhotoActions => {
+    return { type: Reducers.PhotoReducer.TURN_ON_FULL_MEDIA, data: media }
+}
+
+const createTurnOnFullMediaError = (): Reducers.PhotoReducer.IPhotoActions => {
+    return { type: Reducers.PhotoReducer.TURN_OFF_FULL_MEDIA }
+}
+
+export const createTurnOffFullMedia = (): Reducers.PhotoReducer.IPhotoActions => {
+    return { type: Reducers.PhotoReducer.TURN_OFF_FULL_MEDIA }
 }
 
 export default photoReducer

@@ -3,7 +3,7 @@ import { Photos } from "./Photos";
 import { compose } from "redux"
 import { connect } from "react-redux";
 import { withAuth } from "./../../hoc/auth"
-import { createAddPhotos, createGetPhotos } from "../../redux/photo-reducer"
+import { createAddPhotos, createGetPhotos, createTurnOnFullMedia, createTurnOffFullMedia } from "../../redux/photo-reducer"
 import { IsChosenTagInTags } from "../../Helpers/utils"
 import type { State } from "./../../types"
 
@@ -58,9 +58,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
             if (photo.length == 0) {
             }
         },
-        setThumbnailToShowInDatailed: (thumbnail: string) => {
-
-        }
+        turnOnFullMedia: (thumbnail: string) => {
+            dispatch(createTurnOnFullMedia(thumbnail))
+        },
+        turnOffFullMedia: () => {
+            dispatch(createTurnOffFullMedia())
+        },
     })
 }
 
