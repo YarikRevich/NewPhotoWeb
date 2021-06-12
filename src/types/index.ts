@@ -52,6 +52,7 @@ export namespace StateComponenents {
             thumbnail: string
             tags: string[]
         }[]
+        isUpdate: boolean
         fullMedia: {
             isShown: boolean,
             src: string,
@@ -244,13 +245,7 @@ export namespace Components {
             readonly albumsPage: StateComponenents.AlbumsPage;
             handleFormAdd(albumName: string, directories: FileList, files: FileList): void
             handleFormCreate(albumName: string): void
-            handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
             turnOnRedirect(to: string): void
-            getAlbums(): void
-        }
-
-        export interface AlbumListType {
-            albumsPage: StateComponenents.AlbumsPage;
             getAlbums(): void
         }
 
@@ -258,7 +253,6 @@ export namespace Components {
             albumsPage: StateComponenents.AlbumsPage;
             handleFormAdd(albumName: string, directories: FileList, files: FileList): void
             handleFormCreate(albumName: string): void
-            handleFormDelete(ref: React.RefObject<HTMLInputElement>): void
         }
     }
 
@@ -285,12 +279,7 @@ export namespace Components {
         export interface PhotosType {
             readonly photoPage: StateComponenents.PhotoPage;
             handleSubmit(f: FileList): void;
-            handleBlur(ref: React.RefObject<HTMLDivElement>): void
-            handleFocus(ref: React.RefObject<HTMLDivElement>): void
             handleChange(tag: string, photoPage: StateComponenents.PhotoPage): void
-            // handleSearch(tag: string, photoPage: StateComponenents.PhotoPage): void
-            
-            handleReset(ref: React.RefObject<HTMLInputElement>): void
             getPhotos(): void
             getFullPhoto(photo: string, thumbnail: string, ref: React.RefObject<HTMLAnchorElement>): void
             orderPhotosDueTags(photos: { photo: string; thumbnail: string; tags: string[] }[], tch: string[]): Array<{ photo: string; thumbnail: string; tags: string[] }>
@@ -301,11 +290,7 @@ export namespace Components {
         export interface PanelType {
             readonly photoPage: StateComponenents.PhotoPage;
             handleSubmit(f: FileList): void;
-            handleBlur(ref: React.RefObject<HTMLDivElement>): void
-            handleFocus(ref: React.RefObject<HTMLDivElement>): void
             handleChange(tag: string, photoPage: StateComponenents.PhotoPage): void
-            //handleSearch(tag: string, photoPage: StateComponenents.PhotoPage): void
-            handleReset(ref: React.RefObject<HTMLInputElement>): void
         }
     }
 }
@@ -326,19 +311,13 @@ export namespace Reducers {
 
         export const GET_PHOTOS_SUCCESS = "GET-PHOTOS-SUCCESS";
         export const GET_PHOTOS_ERROR = "GET-PHOTOS-ERROR";
+        export const TURN_ON_UPDATE = "TURN-ON-UPDATE"
+        export const TURN_OFF_UPDATE = "TURN-OFF-UPDATE"
         export const TURN_ON_FULL_MEDIA = "TURN-ON-FULL-MEDIA"
         export const TURN_OFF_FULL_MEDIA = "TURN-OFF-FULL-MEDIA"
         export const ADD_PHOTOS_SUCCESS = "ADD-PHOTOS-SUCCESS";
         export const ADD_PHOTOS_ERROR = "ADD-PHOTOS-ERROR";
         export const SET_SIMILAR_TAG = "SET-SIMILAR-TAG"
-
-        // export const GET_PHOTO_FOR_DOWNLOAD = "GET-PHOTO-TO-DOWNLOAD";
-        // export const SET_TAG_CHOSEN_UPDATER = "SET-TAG-CHOSEN-UPDATER";
-        // export const DELETE_CHOSEN_TAG = "DELETE-CHOSEN-TAG";
-        // export const GET_ALL_AVAILABLE_TAGS = "GET-ALL-AVAILABLE-TAGS";
-        // export const BLUR_TAG_INPUT = "BLUR-TAG-INPUT";
-        // export const FOCUS_TAG_INPUT = "FOCUS-TAG-INPUT";
-        // export const SET_THUMB_TO_SHOW_DETAILED = "SET-THUMB-TO-SHOW-DETAILED"
     }
 
     export namespace AccountReducer {

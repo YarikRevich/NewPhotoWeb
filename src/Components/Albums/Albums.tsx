@@ -59,7 +59,11 @@ export const Albums = (props: Components.Albums.AlbumsType) => {
     return (
         <div>
             <div>
-                <AdvancePanel albumsPage={props.albumsPage} handleFormAdd={props.handleFormAdd} handleFormCreate={props.handleFormCreate} handleFormDelete={props.handleFormDelete} />
+                <AdvancePanel
+                    albumsPage={props.albumsPage}
+                    handleFormAdd={props.handleFormAdd}
+                    handleFormCreate={props.handleFormCreate}
+                />
             </div>
             <div>
                 <MediaOrderer

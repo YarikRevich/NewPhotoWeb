@@ -18,14 +18,17 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         turnOnRedirect: (to: string) => {
             dispatch(createTurnOnRedirect(to))
         },
-       
         handleFormCreate: (albumName: string) => {
             dispatch(createCreateAlbum(albumName))
         },
-        handleFormDelete: (ref: React.RefObject<HTMLInputElement>) => {
-        },
         getAlbums: () => {
             dispatch(createGetAlbums())
+        },
+        turnOnUpdate: () => {
+            dispatch(createTurnOnUpdate())
+        },
+        turnOffUpdate: () => {
+            dispatch(createTurnOffUpdate())
         }
     })
 }

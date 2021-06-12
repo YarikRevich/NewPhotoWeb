@@ -59,6 +59,7 @@ export const createGetAlbums = () => async (dispatch: Dispatch<Reducers.AlbumsRe
     } else {
         dispatch(createGetAlbumsError())
     }
+    dispatch(createTurnOffUpdate())
 }
 
 const createGetAlbumsSuccess = (d: any): Reducers.AlbumsReducer.IAlbumsActions => {
@@ -77,6 +78,7 @@ export const createCreateAlbum = (albumName: string) => async (dispatch: Dispatc
     } else {
         dispatch(createCreateAlbumError())
     }
+    dispatch(createTurnOnUpdate())
 }
 
 const createCreateAlbumSuccess = (): Reducers.AlbumsReducer.IAlbumsActions => {

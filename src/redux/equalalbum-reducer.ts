@@ -30,7 +30,7 @@ const EqualAlbumReducer = (state: initialStateType = initialState, action: Reduc
         case Reducers.EqualAlbumReducer.DELETE_ALBUM_ERROR:
             return { ...state }
         case Reducers.EqualAlbumReducer.GET_EQUAL_ALBUM_SUCCESS:
-            return { ...state, result: {photos: (action.data.photos ? action.data.photos : []), videos: (action.data.photos ? action.data.photos : [])} }
+            return { ...state, result: { photos: (action.data.photos ? action.data.photos : []), videos: (action.data.photos ? action.data.photos : []) } }
         case Reducers.EqualAlbumReducer.GET_EQUAL_ALBUM_SUCCESS:
             return { ...state }
         case Reducers.EqualAlbumReducer.TURN_ON_UPDATE:
@@ -50,8 +50,6 @@ const EqualAlbumReducer = (state: initialStateType = initialState, action: Reduc
 }
 
 export const createAddToAlbum = (albumName: string, f: FileList) => async (dispatch: Dispatch<Reducers.EqualAlbumReducer.IEqualAlbumActions>) => {
-
-    dispatch(createTurnOnUpdate())
     const photos: SentData.LoadedMedia = []
     const videos: SentData.LoadedMedia = []
 
@@ -68,7 +66,6 @@ export const createAddToAlbum = (albumName: string, f: FileList) => async (dispa
                         size: i.size,
                         extension: i.name.split(".").reverse()[0],
                     }
-                    console.log()
                     if (i.type.match("image")) {
                         photos.push(r)
                     } else {
@@ -90,15 +87,15 @@ export const createAddToAlbum = (albumName: string, f: FileList) => async (dispa
     } else {
         dispatch(createAddToAlbumError())
     }
-    dispatch(createTurnOffUpdate())
+    dispatch(createTurnOnUpdate())
 }
 
 
-const createTurnOnUpdate = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
+export const createTurnOnUpdate = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
     return { type: Reducers.EqualAlbumReducer.TURN_ON_UPDATE }
 }
 
-const createTurnOffUpdate = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
+export const createTurnOffUpdate = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
     return { type: Reducers.EqualAlbumReducer.TURN_OFF_UPDATE }
 }
 
@@ -119,16 +116,15 @@ export const createTurnOffGoBack = (): Reducers.AlbumsReducer.IAlbumsActions => 
 }
 
 export const createDeleteAlbum = (albumName: string) => async (dispatch: Dispatch<Reducers.EqualAlbumReducer.IEqualAlbumActions>) => {
-    dispatch(cTonU())
     dispatch(createTurnOnGoBack())
     const r = await deleteAlbum(albumName)
     if (r) {
-        await dispatch(createDeleteAlbumSuccess())
+        dispatch(createDeleteAlbumSuccess())
     } else {
         dispatch(createDeleteAlbumError())
     }
-    await dispatch(createTurnOffGoBack())
-    dispatch(cToffU())
+    dispatch(createTurnOffGoBack())
+    dispatch(createTurnOnUpdate())
 }
 
 const createDeleteAlbumSuccess = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
@@ -147,6 +143,7 @@ export const createGetEqualAlbum = (albumName: string, offset: number, page: num
     } else {
         dispatch(createGetEqualAlbumError())
     }
+    dispatch(createTurnOffUpdate())
 }
 
 const createGetEqualAlbumSuccess = (data: any): Reducers.EqualAlbumReducer.IEqualAlbumActions => {

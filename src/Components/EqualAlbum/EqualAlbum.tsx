@@ -73,7 +73,10 @@ const EqualAlbum = (props: Components.EqualAlbum.EqualAlbumType) => {
     return (
         <div>
             {props.equalAlbumPage.goBack ? <Redirect exact to={"/albums"} /> : null}
-            <AdvancePanel handleFormAdd={props.handleFormAdd} handleDeleteAlbum={props.handleDeleteAlbum} name={props.name} />
+            <AdvancePanel
+                handleFormAdd={props.handleFormAdd}
+                handleDeleteAlbum={props.handleDeleteAlbum}
+                name={props.name} />
             <MediaOrderer
                 data={props.equalAlbumPage.result.photos}
                 render={(el, i, s) => {

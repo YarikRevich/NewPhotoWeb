@@ -3,8 +3,8 @@ import { Photos } from "./Photos";
 import { compose } from "redux"
 import { connect } from "react-redux";
 import { withAuth } from "./../../hoc/auth"
-import { createAddPhotos, createGetPhotos, createTurnOnFullMedia, createTurnOffFullMedia, createSetPhotosByTag, createSetSimilarTags } from "../../redux/photo-reducer"
-import { IsChosenTagInTags, GetSomeTagCoincidence } from "../../Helpers/utils"
+import { createAddPhotos, createGetPhotos, createTurnOnFullMedia, createSetSimilarTags, createTurnOffUpdate, createTurnOffFullMedia, createTurnOnUpdate } from "../../redux/photo-reducer"
+import { GetSomeTagCoincidence } from "../../Helpers/utils"
 import type { State, StateComponenents } from "./../../types"
 
 const mapStateToProps = (state: State) => {
@@ -18,12 +18,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         handleSubmit: (f: FileList) => {
             dispatch(createAddPhotos(f))
         },
-        handleBlur: (ref: React.RefObject<HTMLDivElement>) => {
-
-        },
-        handleFocus: (ref: React.RefObject<HTMLDivElement>) => {
-
-        },
         handleChange: (tag: string, photoPage: StateComponenents.PhotoPage) => {
             let tags: string[] = []
             for (const i of photoPage.result) {
@@ -33,14 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
                     }
                 }
             }
-            tags = ["Yana", "Yarik"]
             dispatch(createSetSimilarTags(GetSomeTagCoincidence(tags, tag)))
-        },
-        handleSearch: (s: string) => {
-            console.log(s)
-        },
-        handleReset: (ref: React.RefObject<HTMLInputElement>) => {
-
         },
         getPhotos: () => {
             dispatch(createGetPhotos())
@@ -51,6 +38,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         turnOffFullMedia: () => {
             dispatch(createTurnOffFullMedia())
         },
+        turnOnUpdate: () => {
+            dispatch(createTurnOnUpdate())
+        },
+        turnOffUpdate: () => {
+            dispatch(createTurnOffUpdate())
+        }
     })
 }
 

@@ -6,6 +6,7 @@ import DetailedView from "./../DetailedView/DetailedViewContainer"
 import Input from "@material-ui/core/Input"
 import Button from "@material-ui/core/Button"
 import Popper from "@material-ui/core/Popper"
+import UploadIcon from "@material-ui/icons/CloudUpload"
 
 
 import EmptyImage from "./../../assets/images/empty.png"
@@ -14,10 +15,10 @@ import "../../constants/Index/index.css"
 
 const Panel = (props: Components.Photos.PanelType) => {
     const div = useRef(null)
-    const popper = useRef<HTMLDivElement>(null)
+    const input = useRef<HTMLInputElement>(null)
     const [pointerOverPopper, setPointerOverPopper] = useState(false)
     const [pointerOverInput, setPointerOverInput] = useState(false)
-    const [closePopper, setClosePopper] = useState(false)
+    const [closePopper, setClosePopper] = useState(true)
     const [anchorEl, setAnchorEl] = useState<any>(null)
 
     return (
@@ -33,11 +34,23 @@ const Panel = (props: Components.Photos.PanelType) => {
             >
                 {({ handleSubmit, setFieldValue }) => (
                     <div>
-                        <span>Option panel</span>
-                        <div className={classes["panel-add-photo-form"]}>
-                            <input onChange={(e) => setFieldValue("files", e.currentTarget.files)} type="file" name="files" accept={"image/jpeg, image/png"} multiple />
-                            <button onClick={() => handleSubmit()} type="button">Download</button>
-                        </div>
+                        <input
+                            ref={input}
+                            hidden
+                            onChange={(e) => {
+                                setFieldValue("files", e.currentTarget.files)
+                                handleSubmit()
+                            }}
+                            type="file"
+                            name="files"
+                            accept={"image/jpeg, image/png"}
+                            multiple />
+                        <Button
+                            variant={"contained"}
+                            startIcon={<UploadIcon />}
+                            onClick={() => input.current?.click()}
+                            type="button"
+                        >Download</Button>
                     </div>
                 )}
             </Formik>
@@ -46,15 +59,23 @@ const Panel = (props: Components.Photos.PanelType) => {
                 onSubmit={() => { }}
             >
                 {({ values, handleChange, setFieldValue }) => (
-                    <div className={classes["photo-search"]}>
+                    <div>
                         <Input
                             autoComplete={"off"}
                             value={values.search}
                             className={classes["photo-search-input"]}
                             onMouseOut={() => setPointerOverInput(false)}
                             onMouseOver={() => setPointerOverInput(true)}
-                            onFocus={() => setClosePopper(false)}
-                            onBlur={() => !pointerOverPopper ? setClosePopper(true) : null}
+                            onFocus={(e) => {
+                                setClosePopper(false)
+                                setAnchorEl(e.currentTarget)
+                            }}
+                            onBlur={() => {
+                                if (!pointerOverPopper) {
+                                    setClosePopper(true)
+                                    setAnchorEl(null)
+                                }
+                            }}
                             onChange={(e) => {
                                 handleChange(e)
                                 props.handleChange(e.currentTarget.value, props.photoPage)
@@ -63,8 +84,14 @@ const Panel = (props: Components.Photos.PanelType) => {
                             type="text"
                             name="search"
                             placeholder="Photo associations" />
-                        <Popper onBlur={() => !pointerOverInput && !pointerOverPopper ? setClosePopper(true) : null} onMouseOut={() => setPointerOverPopper(false)} onMouseOver={() => setPointerOverPopper(true)} anchorEl={anchorEl} open={props.photoPage.chosenTags.length != 0 && !closePopper}>
-                            <div className={classes["popper"]} >
+                        <Popper
+                            onBlur={() => !pointerOverInput && !pointerOverPopper ? setClosePopper(true) : null}
+                            onMouseOut={() => setPointerOverPopper(false)}
+                            onMouseOver={() => setPointerOverPopper(true)}
+                            anchorEl={anchorEl}
+                            style={{ zIndex: 5000 }}
+                            open={props.photoPage.chosenTags.length != 0 && !closePopper}>
+                            <div className={classes["popper"]} style={{ zIndex: 5000 }} >
                                 {props.photoPage.chosenTags.map(el => {
                                     return (
                                         <Button onClick={() => {
@@ -88,17 +115,14 @@ export const Photos = (props: Components.Photos.PhotosType) => {
 
     useEffect(() => {
         props.getPhotos()
-    }, [])
+    }, [props.photoPage.isUpdate])
 
     return (
         <div className={classes["photo-plate"]}>
             <Panel
                 photoPage={props.photoPage}
-                handleBlur={props.handleBlur}
                 handleSubmit={props.handleSubmit}
-                handleFocus={props.handleFocus}
                 handleChange={props.handleChange}
-                handleReset={props.handleReset}
             />
             <MediaOrderer
                 data={props.photoPage.result}
@@ -107,6 +131,7 @@ export const Photos = (props: Components.Photos.PhotosType) => {
                     return (
                         <div>
                             <img
+                                style={{ zIndex: 1000 }}
                                 onClick={(e) => {
                                     props.turnOnFullMedia(el.thumbnail)
                                     const n = anchorEl

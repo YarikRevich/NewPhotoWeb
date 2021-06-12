@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withAuth } from "./../../hoc/auth"
 import EqualAlbum from "./EqualAlbum"
 import type { State } from "./../../types"
-import { createAddToAlbum, createDeleteAlbum, createGetEqualAlbum, createTurnOffFullMedia, createTurnOnFullMedia, createTurnOnGoBack } from "../../redux/equalalbum-reducer";
+import { createAddToAlbum, createDeleteAlbum, createGetEqualAlbum, createTurnOffFullMedia, createTurnOnFullMedia, createTurnOnGoBack, createTurnOnUpdate, createTurnOffUpdate } from "../../redux/equalalbum-reducer";
 import { createTurnOffRedirect } from "../../redux/albums-reducer";
 
 const mapStateToProps = (state: State, matches: { match: { params: { name: string } } }) => {
@@ -44,6 +44,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         turnOffFullMedia: () => {
             dispatch(createTurnOffFullMedia())
         },
+        turnOnUpdate: () => {
+            dispatch(createTurnOnUpdate())
+        },
+        turnOffUpdate: () => {
+            dispatch(createTurnOffUpdate())
+        }
     })
 }
 
