@@ -191,7 +191,7 @@ const createGetPhotosError = (): Reducers.PhotoReducer.IPhotoActions => {
 }
 
 export const createAddPhotos = (f: FileList) => async (dispatch: Dispatch<Reducers.PhotoReducer.IPhotoActions>) => {
-    const r: SentData.LoadedPhotos = []
+    const r: SentData.LoadedMedia = []
 
     const v = Array.from(f)
     for (const i of v) {

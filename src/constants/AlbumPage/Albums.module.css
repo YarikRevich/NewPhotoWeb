@@ -12,7 +12,6 @@
 }
 
 .block img {
-    position: absolute;
     float: right;
     transition: .4s all;
 }

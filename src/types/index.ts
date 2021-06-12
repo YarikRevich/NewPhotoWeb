@@ -10,7 +10,7 @@ export namespace SentData {
         login: string;
         password: string;
     }
-    export type LoadedPhotos = {
+    export type LoadedMedia = {
         file: string
         name: string
         size: number
@@ -18,6 +18,18 @@ export namespace SentData {
     }[]
     export type Photos = {
         tags: string[]
+    }[]
+}
+
+export namespace ReceivedData {
+    export type ReceivedPhotos = {
+        thumbnail: string
+        extension: string
+    }[]
+
+    export type ReceivedVideos = {
+        video: string
+        extension: string
     }[]
 }
 
@@ -41,8 +53,8 @@ export namespace StateComponenents {
             tags: string[]
         }[]
         fullMedia: {
-            isShown: false,
-            src: "",
+            isShown: boolean,
+            src: string,
         },
         chosenTags: string[],
     }
@@ -97,10 +109,14 @@ export namespace StateComponenents {
 
     export interface EqualAlbumPage {
         result: {
-            photo: string,
-            thumbnail: string
-        }[],
-        fullMedia: string
+            photos: ReceivedData.ReceivedPhotos,
+            videos: ReceivedData.ReceivedVideos,
+        },
+        isUpdate: boolean,
+        fullMedia: {
+            isShown: boolean,
+            src: string,
+        },
         goBack: boolean
     }
 
@@ -250,13 +266,17 @@ export namespace Components {
         export interface EqualAlbumType {
             readonly name: string
             readonly equalAlbumPage: StateComponenents.EqualAlbumPage
+            handleFormAdd(albumName: string, directories: FileList, files: FileList): void
             turnOffRedirect(): void
             handleDeleteAlbum(albumName: string): void
             turnOnGoBack(): void
-            getEqualAlbumPhotos(albumName: string): void
+            getEqualAlbumPhotos(albumName: string, offset: number, page: number): void
+            turnOnFullMedia(thumbnail: string): void
+            turnOffFullMedia(): void
         }
         export interface AdvancedPanelType {
             readonly name: string
+            handleFormAdd(albumName: string, directories: FileList, files: FileList): void
             handleDeleteAlbum(albumName: string): void
         }
     }
@@ -352,8 +372,6 @@ export namespace Reducers {
         export interface IAlbumsActions {
             type: string
             data?: any
-            // ref?: React.RefObject<HTMLInputElement | HTMLDivElement | HTMLButtonElement>
-            // files?: FileList
         }
 
         export const GET_ALBUMS_SUCCESS = "GET-ALBUMS-SUCCESS"
@@ -382,6 +400,10 @@ export namespace Reducers {
         export const GET_FULL_MEDIA_ERROR = "GET-FULL-MEDIA-ERROR"
         export const TURN_ON_GO_BACK = "TURN-ON-GO-BACK"
         export const TURN_OFF_GO_BACK = "TURN-OFF-GO-BACK"
+        export const TURN_ON_FULL_MEDIA = "TURN-ON-FULL-MEDIA"
+        export const TURN_OFF_FULL_MEDIA = "TURN-OFF-FULL-MEDIA"
+        export const TURN_ON_UPDATE = "TURN-ON-UPDATE"
+        export const TURN_OFF_UPDATE = "TURN-OFF-UPDATE"
     }
 }
 

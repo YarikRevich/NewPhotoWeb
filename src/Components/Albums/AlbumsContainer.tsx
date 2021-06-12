@@ -18,15 +18,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         turnOnRedirect: (to: string) => {
             dispatch(createTurnOnRedirect(to))
         },
-        handleFormAdd: (albumName: string, directories: FileList, files: FileList) => {
-            const concated = Array.from(files).concat(Array.from(directories));
-            const r = new DataTransfer()
-
-            for (let i of concated) {
-                r.items.add(i)
-            }
-
-        },
+       
         handleFormCreate: (albumName: string) => {
             dispatch(createCreateAlbum(albumName))
         },

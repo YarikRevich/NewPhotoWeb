@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react"
-import type { Components, Util } from "./../../types/index"
+import React, { useState } from "react"
+import type { Components } from "./../../types/index"
 import { OrderByTags } from "./../../Helpers/utils"
 import classes from "./../../constants/MediaOrderer/MediaOrderer.module.css"
-import EmptyImage from "./../../assets/images/empty.png"
-import NoMediaImage from "./../../assets/images/nomedia.png"
 
 
 function MediaOrderer<T>(props: Components.MediaOrderer.MediaOrdererType<T>) {
-
     const [update, setUpdate] = useState(0)
     window.onresize = () => {
         setUpdate(update + 1)
+    }
+    window.onscroll = () => {
+        console.log(window.scrollY)
     }
     if (!props.data) throw "Data shouldn't be null"
 

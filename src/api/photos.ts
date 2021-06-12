@@ -11,7 +11,7 @@ export const getPhotos = async (): Promise<{ ok: boolean, data: any } | void> =>
     }
 }
 
-export const addPhotos = async (d: SentData.LoadedPhotos): Promise<boolean | void> => {
+export const addPhotos = async (d: SentData.LoadedMedia): Promise<boolean | void> => {
     try {
         const r = await configuredAxios.post("/photos", { data: d })
     } catch (error) {

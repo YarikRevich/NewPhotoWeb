@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom"
 import { Formik } from "formik"
 import Menu from "@material-ui/core/Menu"
@@ -12,12 +12,9 @@ import Preloader from "./../Preloader/Preloader"
 import EmptyImage from "./../../assets/images/empty.png"
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
-import UploadIcon from "@material-ui/icons/CloudUpload";
 
 const AdvancePanel = (props: Components.Albums.AdvancePanelType) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const multipleUploader = useRef<HTMLInputElement>(null)
-    const directoryUploader = useRef<HTMLInputElement>(null)
 
     return (
         <div className={classes["window"]}>
@@ -36,7 +33,7 @@ const AdvancePanel = (props: Components.Albums.AdvancePanelType) => {
                             actions.resetForm()
                         }}
                     >
-                        {({ errors, values, handleChange, handleSubmit }) => (
+                        {({ errors, handleChange, handleSubmit }) => (
                             <div className={classes["form"]}>
                                 <label htmlFor="create">Album name</label>
                                 <Input onChange={handleChange} id="create" type="text" name="albumName" placeholder="ex: Summer on the beach" />
@@ -76,7 +73,7 @@ export const Albums = (props: Components.Albums.AlbumsType) => {
                                     onClick={() => props.turnOnRedirect(`/album/${el.name}`)}
                                     width={s.width}
                                     height={s.height}
-                                    src={el.latestphotothumbnail ? "data:image/png;image/jpeg;image/jpg;base64, " + el.latestphotothumbnail : EmptyImage}
+                                    src={el.latestphotothumbnail ? `data:image/png;image/jpeg;image/jpg;base64, ${el.latestphotothumbnail}` : EmptyImage}
                                 />
                             </div>
                         )

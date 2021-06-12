@@ -31,69 +31,6 @@ const albumsReducer = (state: initialStateType = initialState, action: Reducers.
             return { ...state, redirect: { isRedirect: true, to: action.data } }
         case Reducers.AlbumsReducer.TURN_OFF_REDIRECT:
             return { ...state, redirect: { isRedirect: false, to: "" } }
-
-        //     case ADD_TO_ALBUM:
-        //         let filesOrFile = action.files as FileList;
-        //         if (filesOrFile === null || filesOrFile === undefined) {
-        //             return
-        //         }
-
-        //         let result = new Array<any>();
-
-        //         let filesArray = Array.from(filesOrFile);
-
-        //         for (let el of filesArray) {
-
-        //             let reader = new FileReader();
-
-        //             reader.onloadend = (f: ProgressEvent<FileReader>) => {
-
-        //                 let fileBase64 = reader.result?.toString();
-        //                 if (fileBase64 === undefined) {
-        //                     return
-        //                 }
-
-        //                 result.push({
-        //                     file: fileBase64.split("base64,")[1],
-        //                     size: el.size,
-        //                     extension: el.type.split("/")[1]
-        //                 })
-
-        //             }
-        //             reader.readAsDataURL(el)
-        //         }
-
-        //         let interval = setInterval(() => {
-        //             if (result.length === filesArray.length) {
-
-        //                 const an = action.ref as React.RefObject<HTMLInputElement>;
-        //                 const anc = an.current
-        //                 if (!anc) return
-        //                 const aname = anc.value
-
-        //                 fetch("/spa/albums/add", {
-        //                     method: "PUT",
-        //                     headers: {
-        //                         "Content-Type": "application/json",
-        //                         "Fetch": "true",
-        //                     },
-        //                     body: JSON.stringify({ result: result, name: aname }),
-        //                 })
-        //                     .then(resp => resp.json())
-        //                     .then((data) => { state.result = []; return data })
-        //                     .then(data => {
-        //                         let interval = setInterval(() => {
-        //                             if (data.service.ok) {
-        //                                 action.updater(false)
-        //                                 clearInterval(interval)
-        //                             }
-        //                         }, 100)
-        //                     })
-        //                 clearInterval(interval);
-        //             }
-        //         }, 100);
-        //         break
-        // }
     }
     return state
 }

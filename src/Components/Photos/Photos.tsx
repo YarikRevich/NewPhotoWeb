@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { Components, SentData } from "./../../types"
+import type { Components } from "./../../types"
 import { Formik } from "formik"
 import MediaOrderer from "./../MediaOrderer/MediaOrderer"
 import DetailedView from "./../DetailedView/DetailedViewContainer"
-//Utils ...
-
-import { GetRandomName } from "../../Helpers/utils"
-
-//Style constants ...
 
 import EmptyImage from "./../../assets/images/empty.png"
 import classes from "./../../constants/PhotoPage/Photos.module.css"
@@ -89,7 +84,6 @@ export const Photos = (props: Components.Photos.PhotosType) => {
                 data={props.photoPage.result}
                 tags={props.photoPage.chosenTags}
                 render={(el, i, s) => {
-
                     return (
                         <div>
                             <img
