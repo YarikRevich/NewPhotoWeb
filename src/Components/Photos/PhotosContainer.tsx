@@ -3,9 +3,9 @@ import { Photos } from "./Photos";
 import { compose } from "redux"
 import { connect } from "react-redux";
 import { withAuth } from "./../../hoc/auth"
-import { createAddPhotos, createGetPhotos, createTurnOnFullMedia, createTurnOffFullMedia } from "../../redux/photo-reducer"
-import { IsChosenTagInTags } from "../../Helpers/utils"
-import type { State } from "./../../types"
+import { createAddPhotos, createGetPhotos, createTurnOnFullMedia, createTurnOffFullMedia, createSetPhotosByTag, createSetSimilarTags } from "../../redux/photo-reducer"
+import { IsChosenTagInTags, GetSomeTagCoincidence } from "../../Helpers/utils"
+import type { State, StateComponenents } from "./../../types"
 
 const mapStateToProps = (state: State) => {
     return ({
@@ -24,26 +24,17 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         handleFocus: (ref: React.RefObject<HTMLDivElement>) => {
 
         },
-        handleChange: (ref1: React.RefObject<HTMLButtonElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLDivElement>) => {
-            const c = ref2.current;
-            const d = ref3.current;
-            if (c === null) {
-                return
+        handleChange: (tag: string, photoPage: StateComponenents.PhotoPage) => {
+            let tags: string[] = []
+            for (const i of photoPage.result) {
+                if (i.tags) {
+                    for (const v of i.tags) {
+                        if (!tags.includes(v)) tags.push(v)
+                    }
+                }
             }
-
-            if (d === null) {
-                return
-            }
-
-            Array.from(d.children).forEach(el => {
-                d?.removeChild(el)
-            })
-            d.className = "";
-            if (c.value.length !== 0) {
-
-            } else {
-                d.style.marginTop = "0px";
-            }
+            tags = ["Yana", "Yarik"]
+            dispatch(createSetSimilarTags(GetSomeTagCoincidence(tags, tag)))
         },
         handleSearch: (s: string) => {
             console.log(s)
@@ -53,10 +44,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         },
         getPhotos: () => {
             dispatch(createGetPhotos())
-        },
-        getFullPhoto: (photo: string, thumbnail: string, ref: React.RefObject<HTMLAnchorElement>) => {
-            if (photo.length == 0) {
-            }
         },
         turnOnFullMedia: (thumbnail: string) => {
             dispatch(createTurnOnFullMedia(thumbnail))

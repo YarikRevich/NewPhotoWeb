@@ -11,14 +11,18 @@ export const IsChosenTagInTags = <T>(tch: Array<T>, rt: Array<T>): boolean => {
     return false;
 }
 
-export const GetTagCoincidence = (at: string[], wt: string): string => {
+export const GetTagCoincidence = (at: string[], wt: string): string | null => {
     let coincidenceNum = 0;
     let coincidenceIndex = 0;
     for (let r of at) {
         let coincidenceNumLocal = 0;
         for (let i = 0; i <= wt.length - 1; i++) {
-            if (r[i] !== wt[i]) {
-                break
+            const f = r[i]
+            const s = wt[i]
+            if (f && s) {
+                if (f.toLowerCase() !== s.toLowerCase()){
+                    break
+                }
             }
             coincidenceNumLocal += 1
         }
@@ -29,29 +33,38 @@ export const GetTagCoincidence = (at: string[], wt: string): string => {
         }
     }
     if (coincidenceNum === 0 && coincidenceIndex === 0) {
-        return ""
+        return null
     }
     return at[coincidenceIndex]
 }
 
 export const GetSomeTagCoincidence = (at: string[], wt: string): string[] => {
-    let r = at;
+    const r = at;
+    const deleteTagFromSource = (s: string | null) => {
+        if (s) {
+            const fi = r.indexOf(s)
+            if (fi > -1) {
+                r.splice(fi, 1)
+            }
+        }
+    }
     const first = GetTagCoincidence(r, wt)
-    const fi = r.indexOf(first)
-    if (fi > -1) {
-        r.splice(fi, 1)
-    }
+    deleteTagFromSource(first)
     const second = GetTagCoincidence(r, wt)
-    const si = r.indexOf(second)
-    if (si > -1) {
-        r.splice(si, 1)
-    }
+    deleteTagFromSource(second)
     const third = GetTagCoincidence(r, wt)
-    const ti = r.indexOf(third)
-    if (ti > -1) {
-        r.splice(ti, 1)
+    deleteTagFromSource(third)
+    const result = []
+    if (first) {
+        result.push(first)
     }
-    return [first, second, third]
+    if (second) {
+        result.push(second)
+    }
+    if (third) {
+        result.push(third)
+    }
+    return result
 }
 
 export const OrderByTags = <T extends Util.Tagged>(p: Array<T>, tch: string[]): Array<T> => {

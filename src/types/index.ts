@@ -287,8 +287,9 @@ export namespace Components {
             handleSubmit(f: FileList): void;
             handleBlur(ref: React.RefObject<HTMLDivElement>): void
             handleFocus(ref: React.RefObject<HTMLDivElement>): void
-            handleChange(ref1: React.RefObject<HTMLButtonElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLDivElement>): void
-            handleSearch(s: string): void
+            handleChange(tag: string, photoPage: StateComponenents.PhotoPage): void
+            // handleSearch(tag: string, photoPage: StateComponenents.PhotoPage): void
+            
             handleReset(ref: React.RefObject<HTMLInputElement>): void
             getPhotos(): void
             getFullPhoto(photo: string, thumbnail: string, ref: React.RefObject<HTMLAnchorElement>): void
@@ -298,11 +299,12 @@ export namespace Components {
         }
 
         export interface PanelType {
+            readonly photoPage: StateComponenents.PhotoPage;
             handleSubmit(f: FileList): void;
             handleBlur(ref: React.RefObject<HTMLDivElement>): void
             handleFocus(ref: React.RefObject<HTMLDivElement>): void
-            handleChange(ref1: React.RefObject<HTMLButtonElement>, ref2: React.RefObject<HTMLInputElement>, ref3: React.RefObject<HTMLDivElement>): void
-            handleSearch(s: string): void
+            handleChange(tag: string, photoPage: StateComponenents.PhotoPage): void
+            //handleSearch(tag: string, photoPage: StateComponenents.PhotoPage): void
             handleReset(ref: React.RefObject<HTMLInputElement>): void
         }
     }
@@ -328,7 +330,7 @@ export namespace Reducers {
         export const TURN_OFF_FULL_MEDIA = "TURN-OFF-FULL-MEDIA"
         export const ADD_PHOTOS_SUCCESS = "ADD-PHOTOS-SUCCESS";
         export const ADD_PHOTOS_ERROR = "ADD-PHOTOS-ERROR";
-        export const SET_CHOSEN_TAG = "SET-CHOSEN-TAG"
+        export const SET_SIMILAR_TAG = "SET-SIMILAR-TAG"
 
         // export const GET_PHOTO_FOR_DOWNLOAD = "GET-PHOTO-TO-DOWNLOAD";
         // export const SET_TAG_CHOSEN_UPDATER = "SET-TAG-CHOSEN-UPDATER";

@@ -3,6 +3,10 @@ import type { Components } from "./../../types"
 import { Formik } from "formik"
 import MediaOrderer from "./../MediaOrderer/MediaOrderer"
 import DetailedView from "./../DetailedView/DetailedViewContainer"
+import Input from "@material-ui/core/Input"
+import Button from "@material-ui/core/Button"
+import Popper from "@material-ui/core/Popper"
+
 
 import EmptyImage from "./../../assets/images/empty.png"
 import classes from "./../../constants/PhotoPage/Photos.module.css"
@@ -10,6 +14,11 @@ import "../../constants/Index/index.css"
 
 const Panel = (props: Components.Photos.PanelType) => {
     const div = useRef(null)
+    const popper = useRef<HTMLDivElement>(null)
+    const [pointerOverPopper, setPointerOverPopper] = useState(false)
+    const [pointerOverInput, setPointerOverInput] = useState(false)
+    const [closePopper, setClosePopper] = useState(false)
+    const [anchorEl, setAnchorEl] = useState<any>(null)
 
     return (
         <div className={classes["panel"]}>
@@ -34,27 +43,38 @@ const Panel = (props: Components.Photos.PanelType) => {
             </Formik>
             <Formik
                 initialValues={{ search: "" }}
-                onSubmit={(values, actions) => {
-                    props.handleSearch(values.search)
-                    actions.resetForm()
-                }}
+                onSubmit={() => { }}
             >
-                {({ values, handleSubmit, handleChange }) => (
+                {({ values, handleChange, setFieldValue }) => (
                     <div className={classes["photo-search"]}>
-                        <input
+                        <Input
+                            autoComplete={"off"}
                             value={values.search}
                             className={classes["photo-search-input"]}
-                            onChange={handleChange}
-                            // onFocus={() => props.handleFocus(divTextRef)}
-                            // onBlur={() => props.handleBlur(divTextRef)}
+                            onMouseOut={() => setPointerOverInput(false)}
+                            onMouseOver={() => setPointerOverInput(true)}
+                            onFocus={() => setClosePopper(false)}
+                            onBlur={() => !pointerOverPopper ? setClosePopper(true) : null}
+                            onChange={(e) => {
+                                handleChange(e)
+                                props.handleChange(e.currentTarget.value, props.photoPage)
+                                setAnchorEl(e.currentTarget)
+                            }}
                             type="text"
                             name="search"
                             placeholder="Photo associations" />
-                        <button
-                            // onDoubleClick={() => props.handleReset(formTextInputRef)}
-                            onClick={() => handleSubmit()}
-                            type="button"
-                        >Search!</button>
+                        <Popper onBlur={() => !pointerOverInput && !pointerOverPopper ? setClosePopper(true) : null} onMouseOut={() => setPointerOverPopper(false)} onMouseOver={() => setPointerOverPopper(true)} anchorEl={anchorEl} open={props.photoPage.chosenTags.length != 0 && !closePopper}>
+                            <div className={classes["popper"]} >
+                                {props.photoPage.chosenTags.map(el => {
+                                    return (
+                                        <Button onClick={() => {
+                                            setFieldValue("search", el)
+                                            setPointerOverPopper(true)
+                                        }}>{el}</Button>
+                                    )
+                                })}
+                            </div>
+                        </Popper>
                         <div ref={div}></div>
                     </div>
                 )}
@@ -73,11 +93,11 @@ export const Photos = (props: Components.Photos.PhotosType) => {
     return (
         <div className={classes["photo-plate"]}>
             <Panel
+                photoPage={props.photoPage}
                 handleBlur={props.handleBlur}
                 handleSubmit={props.handleSubmit}
                 handleFocus={props.handleFocus}
                 handleChange={props.handleChange}
-                handleSearch={props.handleSearch}
                 handleReset={props.handleReset}
             />
             <MediaOrderer

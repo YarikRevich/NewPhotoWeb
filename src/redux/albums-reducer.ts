@@ -16,7 +16,7 @@ type initialStateType = typeof initialState
 const albumsReducer = (state: initialStateType = initialState, action: Reducers.AlbumsReducer.IAlbumsActions) => {
     switch (action.type) {
         case Reducers.AlbumsReducer.GET_ALBUMS_SUCCESS:
-            return { ...state, result: action.data }
+            return { ...state, result: (action.data ? action.data : [])}
         case Reducers.AlbumsReducer.GET_ALBUMS_ERROR:
             return { ...state }
         case Reducers.AlbumsReducer.CREATE_ALBUM_SUCCESS:
@@ -53,7 +53,7 @@ export const createTurnOffUpdate = (): Reducers.AlbumsReducer.IAlbumsActions => 
 
 export const createGetAlbums = () => async (dispatch: Dispatch<Reducers.AlbumsReducer.IAlbumsActions>) => {
     const r = await getAlbums()
-    if (r && r.ok && r.data) {
+    if (r && r.ok) {
         dispatch(createGetAlbumsSuccess(r.data))
         dispatch(createTurnOffUpdate())
     } else {

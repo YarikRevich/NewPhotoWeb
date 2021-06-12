@@ -10,7 +10,7 @@ function MediaOrderer<T>(props: Components.MediaOrderer.MediaOrdererType<T>) {
         setUpdate(update + 1)
     }
     window.onscroll = () => {
-        console.log(window.scrollY)
+        console.log(document.documentElement.scrollTop + window.innerHeight == document.documentElement.scrollHeight)
     }
     if (!props.data) throw "Data shouldn't be null"
 

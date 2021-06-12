@@ -7,6 +7,7 @@ import { getFullMedia } from "../api/media";
 
 let initialState = {
     result: [],
+    resultByTag: [],
     fullMedia: {
         isShown: false,
         src: "",
@@ -31,33 +32,8 @@ const photoReducer: any = (state: initialStateType = initialState, action: Reduc
             return { ...state }
         case Reducers.PhotoReducer.ADD_PHOTOS_ERROR:
             return { ...state }
-        case Reducers.PhotoReducer.SET_CHOSEN_TAG:
-            return { ...state, chosenTag: action.data }
-        // case GET_PHOTO_FOR_DOWNLOAD:
-        //     if (action.thumbnail === undefined) return
-        //     fetch(`/spa/photos?full=${action.thumbnail}`, {
-        //         headers: {
-        //             "Full": action.thumbnail,
-        //             "Fetch": "true",
-        //         }
-        //     })
-        //         .then(resp => resp.json())
-        //         .then(data => {
-        //             state.detailedPhotoView.photo = data.result.photo;
-        //         })
-
-        //     let int = setInterval(() => {
-        //         if (state.detailedPhotoView.photo.length != 0) {
-        //             const ref = action.ref as React.RefObject<HTMLAnchorElement>
-        //             const refc = ref.current
-        //             if (refc === undefined || refc === null) return
-        //             refc.href = `data:image/png;image/jpeg;image/jpg;base64, ${state.detailedPhotoView.photo}`;
-        //             refc.click();
-        //             state.detailedPhotoView.cleanPhoto();
-        //             clearInterval(int);
-        //         }
-        //     }, 10)
-        //     break
+        case Reducers.PhotoReducer.SET_SIMILAR_TAG:
+            return { ...state, chosenTags: action.data }
         // case SET_TAG_CHOSEN_UPDATER:
         //     let at = [];
         //     for (let r of state.result) {
@@ -173,6 +149,14 @@ const photoReducer: any = (state: initialStateType = initialState, action: Reduc
     return state
 }
 
+export const createSetSimilarTags = (tags: string[]): Reducers.PhotoReducer.IPhotoActions => {
+    return { type: Reducers.PhotoReducer.SET_SIMILAR_TAG, data: tags }
+}
+
+export const createSetPhotosByTag = (tag: string) => {
+
+}
+
 export const createGetPhotos = () => async (dispatch: Dispatch<Reducers.PhotoReducer.IPhotoActions>) => {
     const r = await getPhotos()
     if (r && r.ok) {
@@ -228,10 +212,6 @@ const createAddPhotosSuccess = (): Reducers.PhotoReducer.IPhotoActions => {
 
 const createAddPhotosError = (): Reducers.PhotoReducer.IPhotoActions => {
     return { type: Reducers.PhotoReducer.ADD_PHOTOS_ERROR }
-}
-
-export const createSetChosenTag = (t: string): Reducers.PhotoReducer.IPhotoActions => {
-    return { type: Reducers.PhotoReducer.SET_CHOSEN_TAG, data: t }
 }
 
 export const createTurnOnFullMedia = (thumbnail: string) => async (dispatch: Dispatch<Reducers.PhotoReducer.IPhotoActions>) => {
