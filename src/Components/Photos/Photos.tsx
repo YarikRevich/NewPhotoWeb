@@ -8,18 +8,16 @@ import Button from "@material-ui/core/Button"
 import Popper from "@material-ui/core/Popper"
 import UploadIcon from "@material-ui/icons/CloudUpload"
 
-
 import EmptyImage from "./../../assets/images/empty.png"
 import classes from "./../../constants/PhotoPage/Photos.module.css"
 import "../../constants/Index/index.css"
 
 const Panel = (props: Components.Photos.PanelType) => {
-    const div = useRef(null)
     const input = useRef<HTMLInputElement>(null)
     const [pointerOverPopper, setPointerOverPopper] = useState(false)
     const [pointerOverInput, setPointerOverInput] = useState(false)
     const [closePopper, setClosePopper] = useState(true)
-    const [anchorEl, setAnchorEl] = useState<any>(null)
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
     return (
         <div className={classes["panel"]}>
@@ -54,58 +52,44 @@ const Panel = (props: Components.Photos.PanelType) => {
                     </div>
                 )}
             </Formik>
-            <Formik
-                initialValues={{ search: "" }}
-                onSubmit={() => { }}
-            >
-                {({ values, handleChange, setFieldValue }) => (
-                    <div>
-                        <Input
-                            autoComplete={"off"}
-                            value={values.search}
-                            className={classes["photo-search-input"]}
-                            onMouseOut={() => setPointerOverInput(false)}
-                            onMouseOver={() => setPointerOverInput(true)}
-                            onFocus={(e) => {
-                                setClosePopper(false)
-                                setAnchorEl(e.currentTarget)
-                            }}
-                            onBlur={() => {
-                                if (!pointerOverPopper) {
-                                    setClosePopper(true)
-                                    setAnchorEl(null)
-                                }
-                            }}
-                            onChange={(e) => {
-                                handleChange(e)
-                                props.handleChange(e.currentTarget.value, props.photoPage)
-                                setAnchorEl(e.currentTarget)
-                            }}
-                            type="text"
-                            name="search"
-                            placeholder="Photo associations" />
-                        <Popper
-                            onBlur={() => !pointerOverInput && !pointerOverPopper ? setClosePopper(true) : null}
-                            onMouseOut={() => setPointerOverPopper(false)}
-                            onMouseOver={() => setPointerOverPopper(true)}
-                            anchorEl={anchorEl}
-                            style={{ zIndex: 5000 }}
-                            open={props.photoPage.chosenTags.length != 0 && !closePopper}>
-                            <div className={classes["popper"]} style={{ zIndex: 5000 }} >
-                                {props.photoPage.chosenTags.map(el => {
-                                    return (
-                                        <Button onClick={() => {
-                                            setFieldValue("search", el)
-                                            setPointerOverPopper(true)
-                                        }}>{el}</Button>
-                                    )
-                                })}
-                            </div>
-                        </Popper>
-                        <div ref={div}></div>
-                    </div>
-                )}
-            </Formik>
+            <Input
+                autoComplete={"off"}
+                onMouseOut={() => setPointerOverInput(false)}
+                onMouseOver={() => setPointerOverInput(true)}
+                onFocus={(e) => {
+                    setClosePopper(false)
+                    setAnchorEl(e.currentTarget)
+                }}
+                onBlur={() => {
+                    if (!pointerOverPopper) {
+                        setClosePopper(true)
+                        setAnchorEl(null)
+                    }
+                }}
+                onChange={(e) => {
+                    props.handleChange(e.currentTarget.value, props.photoPage)
+                    setAnchorEl(e.currentTarget)
+                }}
+                type="text"
+                name="search"
+                placeholder="Photo associations" />
+            <Popper
+                keepMounted
+                onBlur={() => !pointerOverInput && !pointerOverPopper ? setClosePopper(true) : null}
+                onMouseOut={() => setPointerOverPopper(false)}
+                onMouseOver={() => setPointerOverPopper(true)}
+                anchorEl={anchorEl}
+                open={props.photoPage.chosenTags.length != 0 && !closePopper}>
+                <div className={classes["popper"]}>
+                    {props.photoPage.chosenTags.map(el => {
+                        return (
+                            <Button onClick={() => {
+                                setPointerOverPopper(true)
+                            }}>{el}</Button>
+                        )
+                    })}
+                </div>
+            </Popper>
         </div>
     )
 }
@@ -131,7 +115,6 @@ export const Photos = (props: Components.Photos.PhotosType) => {
                     return (
                         <div>
                             <img
-                                style={{ zIndex: 1000 }}
                                 onClick={(e) => {
                                     props.turnOnFullMedia(el.thumbnail)
                                     const n = anchorEl
