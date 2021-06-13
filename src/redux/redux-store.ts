@@ -1,6 +1,6 @@
 import { createStore, combineReducers, Reducer, applyMiddleware } from "redux";
 import thunk from "redux-thunk"
-import photoReducer from "./photo-reducer";
+import mediaReducer from "./media-reducer";
 import albumsReducer from "./albums-reducer";
 import albumReducer from "./equalalbum-reducer";
 import accountReducer from "./account-reducer";
@@ -9,7 +9,7 @@ import appReducer from "./app-reducer"
 
 
 let reducers = combineReducers<Reducer>({
-    photoPage: photoReducer,
+    mediaPage: mediaReducer,
     equalAlbumPage: albumReducer,
     albumsPage: albumsReducer,
     accountPage: accountReducer,

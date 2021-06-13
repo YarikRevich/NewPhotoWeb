@@ -49,9 +49,16 @@ export namespace StateComponenents {
 
     export interface MediaPage {
         result: {
-            thumbnail: string
-            tags: string[]
-        }[]
+            photos: {
+                thumbnail: string
+                tags: string[]
+            }[],
+            videos: {
+                thumbnail: string
+                tags: string[]
+            }[]
+
+        }
         isUpdate: boolean
         fullMedia: {
             isShown: boolean,
@@ -59,10 +66,6 @@ export namespace StateComponenents {
         },
         chosenTags: string[],
     }
-
-    export interface PhotoPage extends MediaPage { }
-
-    export interface VideoPage extends MediaPage { }
 
     export interface AlbumsPage {
         result: {
@@ -133,9 +136,7 @@ export namespace StateComponenents {
 }
 
 export interface State {
-    photoPage: StateComponenents.PhotoPage;
-
-    videoPage: StateComponenents.VideoPage;
+    mediaPage: StateComponenents.MediaPage;
 
     albumsPage: StateComponenents.AlbumsPage;
 
@@ -275,22 +276,22 @@ export namespace Components {
         }
     }
 
-    export namespace Photos {
-        export interface PhotosType {
-            readonly photoPage: StateComponenents.PhotoPage;
+    export namespace Media {
+        export interface MediaType {
+            readonly mediaPage: StateComponenents.MediaPage;
             handleSubmit(f: FileList): void;
-            handleChange(tag: string, photoPage: StateComponenents.PhotoPage): void
-            getPhotos(): void
-            getFullPhoto(photo: string, thumbnail: string, ref: React.RefObject<HTMLAnchorElement>): void
-            orderPhotosDueTags(photos: { photo: string; thumbnail: string; tags: string[] }[], tch: string[]): Array<{ photo: string; thumbnail: string; tags: string[] }>
-            turnOnFullMedia(thumbnail: string): void
+            handleChange(tag: string, mediaPage: StateComponenents.MediaPage, type: "photos" | "videos"): void
+            getMedia(): void
+            turnOnFullMedia(thumbnail: string, type: "photos" | "videos"): void
             turnOffFullMedia(): void
         }
 
-        export interface PanelType {
-            readonly photoPage: StateComponenents.PhotoPage;
+        export interface AdvancedPanelType {
+            readonly mediaPage: StateComponenents.MediaPage;
+            readonly switched: boolean
+            onSwitch: () => void
             handleSubmit(f: FileList): void;
-            handleChange(tag: string, photoPage: StateComponenents.PhotoPage): void
+            handleChange(tag: string, mediaPage: StateComponenents.MediaPage, type: "photos" | "videos"): void
         }
     }
 }
@@ -303,20 +304,20 @@ export namespace Reducers {
 
         export const INITIALIZED_SUCCESS = "INITIALIZED_SUCCESS";
     }
-    export namespace PhotoReducer {
-        export interface IPhotoActions {
+    export namespace MediaReducer {
+        export interface IMediaActions {
             type: string;
             data?: any
         }
 
-        export const GET_PHOTOS_SUCCESS = "GET-PHOTOS-SUCCESS";
-        export const GET_PHOTOS_ERROR = "GET-PHOTOS-ERROR";
+        export const GET_MEDIA_SUCCESS = "GET-MEDIA-SUCCESS";
+        export const GET_MEDIA_ERROR = "GET-MEDIA-ERROR";
         export const TURN_ON_UPDATE = "TURN-ON-UPDATE"
         export const TURN_OFF_UPDATE = "TURN-OFF-UPDATE"
         export const TURN_ON_FULL_MEDIA = "TURN-ON-FULL-MEDIA"
         export const TURN_OFF_FULL_MEDIA = "TURN-OFF-FULL-MEDIA"
-        export const ADD_PHOTOS_SUCCESS = "ADD-PHOTOS-SUCCESS";
-        export const ADD_PHOTOS_ERROR = "ADD-PHOTOS-ERROR";
+        export const ADD_MEDIA_SUCCESS = "ADD-MEDIA-SUCCESS";
+        export const ADD_MEDIA_ERROR = "ADD-MEDIA-ERROR";
         export const SET_SIMILAR_TAG = "SET-SIMILAR-TAG"
     }
 

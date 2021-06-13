@@ -18,11 +18,11 @@ const DetailedView = (props: Components.DetailedView.DetailedViewType) => {
                         {props.type == "photo" ? (
                             <img width={props.mediaSize.width} height={props.mediaSize.height} src={`data:image/png;image/jpeg;image/jpg;base64, ${props.media}`} />
                         ) : (
-                            <video width={props.mediaSize.width} height={props.mediaSize.height} src={`data:image/png;image/jpeg;image/jpg;base64, ${props.media}`} />
+                            <video controls width={props.mediaSize.width} height={props.mediaSize.height} src={`data:video/mp4;base64, ${props.media}`} />
                         )}
                     </div>
                     <div className={classes["download"]}>
-                        <a hidden ref={download} href={`data:image/png;image/jpeg;image/jpg;base64, ${props.media}`} download={GetRandomName()} />
+                        <a hidden ref={download} href={props.type == "photo" ? `data:image/png;image/jpeg;image/jpg;base64, ${props.media}` : `data:video/mp4;base64, ${props.media}`} download={GetRandomName()} />
                         <Button variant={"outlined"} color={"primary"} onClick={() => download.current?.click()}>Download</Button>
                     </div>
                 </div>

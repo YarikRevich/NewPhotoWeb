@@ -10,7 +10,7 @@ import AnimatedLogo from "./Components/AnimatedLogo/AnimatedLogo"
 import AccountContainer from "./Components/Account/AccountContainer"
 import SignInContainer from "./Components/Auth/SignIn/SignInContainer"
 import SignUpContainer from "./Components/Auth/SignUp/SignUpContainer"
-import PhotosContainer from "./Components/Photos/PhotosContainer"
+import PhotosContainer from "./Components/Media/MediaContainer"
 import AlbumsContainer from "./Components/Albums/AlbumsContainer"
 import EqualAlbumContainer from "./Components/EqualAlbum/EqualAlbumContainer"
 
