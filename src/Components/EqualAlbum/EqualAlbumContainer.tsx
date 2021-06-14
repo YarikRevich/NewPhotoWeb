@@ -3,7 +3,7 @@ import { compose } from "redux"
 import { connect } from "react-redux";
 import { withAuth } from "./../../hoc/auth"
 import EqualAlbum from "./EqualAlbum"
-import type { State } from "./../../types"
+import type { State, StateComponenents } from "./../../types"
 import { createAddToAlbum, createDeleteAlbum, createGetEqualAlbum, createTurnOffFullMedia, createTurnOnFullMedia, createTurnOnGoBack, createTurnOnUpdate, createTurnOffUpdate } from "../../redux/equalalbum-reducer";
 import { createTurnOffRedirect } from "../../redux/albums-reducer";
 
@@ -38,8 +38,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         turnOffRedirect: () => {
             dispatch(createTurnOffRedirect())
         },
-        turnOnFullMedia: (thumbnail: string) => {
-            dispatch(createTurnOnFullMedia(thumbnail))
+        turnOnFullMedia: (thumbnail: string, type: "photos" | "videos") => {
+            dispatch(createTurnOnFullMedia(thumbnail, type))
         },
         turnOffFullMedia: () => {
             dispatch(createTurnOffFullMedia())

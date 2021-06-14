@@ -22,14 +22,9 @@ export namespace SentData {
 }
 
 export namespace ReceivedData {
-    export type ReceivedPhotos = {
+    export type ReceivedMedia = {
         thumbnail: string
-        extension: string
-    }[]
-
-    export type ReceivedVideos = {
-        video: string
-        extension: string
+        tags: string[]
     }[]
 }
 
@@ -113,8 +108,8 @@ export namespace StateComponenents {
 
     export interface EqualAlbumPage {
         result: {
-            photos: ReceivedData.ReceivedPhotos,
-            videos: ReceivedData.ReceivedVideos,
+            photos: ReceivedData.ReceivedMedia,
+            videos: ReceivedData.ReceivedMedia,
         },
         isUpdate: boolean,
         fullMedia: {
@@ -266,13 +261,15 @@ export namespace Components {
             handleDeleteAlbum(albumName: string): void
             turnOnGoBack(): void
             getEqualAlbumPhotos(albumName: string, offset: number, page: number): void
-            turnOnFullMedia(thumbnail: string): void
+            turnOnFullMedia(thumbnail: string, type: "photos" | "videos"): void
             turnOffFullMedia(): void
         }
         export interface AdvancedPanelType {
-            readonly name: string
-            handleFormAdd(albumName: string, directories: FileList, files: FileList): void
-            handleDeleteAlbum(albumName: string): void
+            readonly name: string;
+            readonly switched: boolean;
+            onSwitch: () => void
+            handleFormAdd(albumName: string, directories: FileList, files: FileList): void;
+            handleDeleteAlbum(albumName: string): void;
         }
     }
 
@@ -281,7 +278,7 @@ export namespace Components {
             readonly mediaPage: StateComponenents.MediaPage;
             handleSubmit(f: FileList): void;
             handleChange(tag: string, mediaPage: StateComponenents.MediaPage, type: "photos" | "videos"): void
-            getMedia(): void
+            getMedia(offset: number, page: number): void
             turnOnFullMedia(thumbnail: string, type: "photos" | "videos"): void
             turnOffFullMedia(): void
         }

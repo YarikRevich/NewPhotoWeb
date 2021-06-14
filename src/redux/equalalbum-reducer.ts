@@ -30,7 +30,7 @@ const EqualAlbumReducer = (state: initialStateType = initialState, action: Reduc
         case Reducers.EqualAlbumReducer.DELETE_ALBUM_ERROR:
             return { ...state }
         case Reducers.EqualAlbumReducer.GET_EQUAL_ALBUM_SUCCESS:
-            return { ...state, result: { photos: (action.data.photos ? action.data.photos : []), videos: (action.data.photos ? action.data.photos : []) } }
+            return { ...state, result: { photos: (action.data.photos ? action.data.photos : []), videos: (action.data.videos ? action.data.videos : []) } }
         case Reducers.EqualAlbumReducer.GET_EQUAL_ALBUM_SUCCESS:
             return { ...state }
         case Reducers.EqualAlbumReducer.TURN_ON_UPDATE:
@@ -154,25 +154,8 @@ const createGetEqualAlbumError = (): Reducers.EqualAlbumReducer.IEqualAlbumActio
     return { type: Reducers.EqualAlbumReducer.GET_EQUAL_ALBUM_ERROR }
 }
 
-
-export const createGetFullMedia = () => (dispatch: Dispatch<Reducers.EqualAlbumReducer.IEqualAlbumActions>) => {
-
-}
-
-const createGetFullMediaSuccess = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
-    return { type: Reducers.EqualAlbumReducer.GET_FULL_MEDIA_SUCCESS }
-}
-
-const createGetFullMediaError = (): Reducers.EqualAlbumReducer.IEqualAlbumActions => {
-    return { type: Reducers.EqualAlbumReducer.GET_FULL_MEDIA_ERROR }
-}
-
-export const createAddToAlbums = () => async (dispatch: Dispatch<Reducers.EqualAlbumReducer.IEqualAlbumActions>) => {
-
-}
-
-export const createTurnOnFullMedia = (thumbnail: string) => async (dispatch: Dispatch<Reducers.EqualAlbumReducer.IEqualAlbumActions>) => {
-    const r = await getFullMedia("photos", thumbnail)
+export const createTurnOnFullMedia = (thumbnail: string, type: "photos" | "videos") => async (dispatch: Dispatch<Reducers.EqualAlbumReducer.IEqualAlbumActions>) => {
+    const r = await getFullMedia(type, thumbnail)
     if (r && r.ok) {
         dispatch(createTurnOnFullMediaSuccess(r.media))
     } else {

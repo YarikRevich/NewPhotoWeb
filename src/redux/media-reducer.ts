@@ -58,17 +58,17 @@ export const createSetSimilarTags = (tags: string[]): Reducers.MediaReducer.IMed
     return { type: Reducers.MediaReducer.SET_SIMILAR_TAG, data: tags }
 }
 
-export const createGetMedia = () => async (dispatch: Dispatch<Reducers.MediaReducer.IMediaActions>) => {
+export const createGetMedia = (offset: number, page: number) => async (dispatch: Dispatch<Reducers.MediaReducer.IMediaActions>) => {
     const d = { photos: [], videos: [] }
 
-    const p = await getPhotos()
+    const p = await getPhotos(offset, page)
     if (p && p.ok && p.data) {
         d.photos = p.data
     } else {
         dispatch(createGetMediaError())
     }
 
-    const v = await getVideos()
+    const v = await getVideos(offset, page)
     if (v && v.ok && v.data) {
         d.videos = v.data
     } else {

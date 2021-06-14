@@ -29,8 +29,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
             }
             dispatch(createSetSimilarTags(GetSomeTagCoincidence(tags, tag)))
         },
-        getMedia: () => {
-            dispatch(createGetMedia())
+        getMedia: (offset: number, page: number) => {
+            dispatch(createGetMedia(offset, page))
         },
         turnOnFullMedia: (thumbnail: string, type: "photos" | "videos") => {
             dispatch(createTurnOnFullMedia(thumbnail, type))

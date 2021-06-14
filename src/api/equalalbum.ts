@@ -2,7 +2,7 @@ import configuredAxios from "./common"
 import messagePublisher from "messagepublisher"
 import type { ReceivedData, SentData } from "../types"
 
-export const getEqualAlbum = async (albumName: string, offset: number, page: number): Promise<{ ok: boolean, data: { photos: ReceivedData.ReceivedPhotos, videos: ReceivedData.ReceivedVideos } } | undefined | void> => {
+export const getEqualAlbum = async (albumName: string, offset: number, page: number): Promise<{ ok: boolean, data: { photos: ReceivedData.ReceivedMedia, videos: ReceivedData.ReceivedMedia } } | undefined | void> => {
     try {
         const r = await configuredAxios.get("/albums/detailed", { params: { "name": albumName, "offset": Math.round(offset), "page": page } })
         return { ok: r.data.service.ok, data: { photos: r.data.result.photos, videos: r.data.result.videos } }

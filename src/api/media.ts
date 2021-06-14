@@ -2,9 +2,9 @@ import configuredAxios from "./common"
 import type { SentData } from "./../types/index"
 import messagePublisher from "messagepublisher"
 
-export const getVideos = async (): Promise<{ ok: boolean, data: any } | void> => {
+export const getVideos = async (offset: number, page: number): Promise<{ ok: boolean, data: any } | void> => {
     try {
-        const r = await configuredAxios.get("/videos", { params: { page: 1, offset: 10 } })
+        const r = await configuredAxios.get("/videos", { params: { offset: Math.round(offset), page } })
         return { ok: r.data.service.ok, data: r.data.result }
     } catch (error) {
         messagePublisher.add(error)
@@ -20,9 +20,9 @@ export const addVideos = async (d: SentData.LoadedMedia): Promise<boolean | void
     }
 }
 
-export const getPhotos = async (): Promise<{ ok: boolean, data: any } | void> => {
+export const getPhotos = async (offset: number, page: number): Promise<{ ok: boolean, data: any } | void> => {
     try {
-        const r = await configuredAxios.get("/photos", { params: { page: 1, offset: 10 } })
+        const r = await configuredAxios.get("/photos", { params: { offset: Math.round(offset), page } })
         return { ok: r.data.service.ok, data: r.data.result }
     } catch (error) {
         messagePublisher.add(error)

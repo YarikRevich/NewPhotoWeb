@@ -25,6 +25,7 @@ const Panel = (props: Components.Media.AdvancedPanelType) => {
         <div className={classes["panel"]}>
             <div>
                 <Switch
+                    color={"primary"}
                     checked={props.switched}
                     onChange={props.onSwitch}
                 />
@@ -106,9 +107,12 @@ const Panel = (props: Components.Media.AdvancedPanelType) => {
 export const Photos = (props: Components.Media.MediaType) => {
     const [anchorEl, setAnchorEl] = useState<any>([])
     const [switched, setSwitched] = useState(false)
+    const [page, setPage] = useState(1)
+    const size = { width: 100, height: 100 }
+    const offset = window.innerWidth / size.width * 10
 
     useEffect(() => {
-        props.getMedia()
+        props.getMedia(offset, page)
     }, [props.mediaPage.isUpdate])
 
     return (
